@@ -37,8 +37,8 @@ export default function Cart() {
   return (
     <Fragment>
       <Header>
-        <SelectBox isItem={true} contents="item" />
-        <SelectBox isItem={false} contents="Discount" />
+        <SelectBox kind="Item" />
+        <SelectBox kind="Discount" />
       </Header>
       <Section></Section>
       <Footer>

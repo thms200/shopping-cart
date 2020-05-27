@@ -3,16 +3,11 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoIosAddCircle } from "react-icons/io";
 
-interface StyleProps {
-  isItem: boolean;
+interface Props {
+  kind: string;
 }
 
-interface SelectBoxProps {
-  isItem: boolean;
-  contents: string;
-}
-
-const BoxLink = styled(Link)<StyleProps>`
+const BoxLink = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,16 +17,15 @@ const BoxLink = styled(Link)<StyleProps>`
   border-style: none;
   font-size: 0.8rem;
   text-decoration: none;
-  color: ${props => (props.isItem) ? "#95989D" : "#EC78A4"};
-  background-color: ${props => (props.isItem) ? "#F7F7F7" : "#FDF2F5"};
+  color: ${(props: Props) => (props.kind === 'Item') ? "#95989D" : "#EC78A4"};
+  background-color: ${(props: Props) => (props.kind === 'Item') ? "#F7F7F7" : "#FDF2F5"};
 `;
 
-export default function SelectBox({ isItem, contents }: SelectBoxProps) {
-  const path = isItem ? 'item' : 'discount';
+export default function SelectBox({ kind }: Props) {
   return (
-    <BoxLink isItem={isItem} to={path}>
+    <BoxLink kind={kind} to={kind.toLowerCase()}>
       <IoIosAddCircle size={15} />
-      {contents}
+      {kind}
     </BoxLink>
   );
 }
