@@ -21,13 +21,12 @@ const Footer = styled.footer`
   height: 10vh;
 `;
 
-const FooterText = styled.div`
+const FooterText = styled.h6`
   margin: 1rem;
   color: #A6ABAE;
-  font-size: 1rem;
 `;
 
-const Sum = styled.div`
+const Sum = styled.h4`
   margin: 1rem;
 `;
 
