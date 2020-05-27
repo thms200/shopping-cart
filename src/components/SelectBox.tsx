@@ -14,10 +14,10 @@ interface SelectBoxProps {
 
 const BoxLink = styled(Link)<StyleProps>`
   display: flex;
+  align-items: center;
   justify-content: center;
   width: 42vw;
   margin: 0.5rem;
-  padding: 0.8rem;
   border-radius: 8px;
   border-style: none;
   font-size: 0.8rem;

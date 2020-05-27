@@ -7,8 +7,11 @@ import Discount from './Discount';
 
 const GlobalStyle = createGlobalStyle`
   html {
-    min-width: 360px;
+    min-width: 320px;
     font-size: 20px;
+  }
+  body {
+    margin: 0;
   }
 `;
 

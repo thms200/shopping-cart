@@ -3,9 +3,35 @@ import styled from 'styled-components';
 import SelectBox from '../components/SelectBox';
 
 const Header = styled.header`
-  display:flex;
+  display: flex;
   justify-content: space-around;
+  border-bottom: 1px dashed #F3F3F3;
+  height: 10vh;
 `;
+
+const Section = styled.section`
+  height: 80vh;
+  overflow-y: scroll;
+`;
+
+const Footer = styled.footer`
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px dashed #F3F3F3;
+  height: 10vh;
+`;
+
+const FooterText = styled.div`
+  margin: 1rem;
+  color: #A6ABAE;
+  font-size: 1rem;
+`;
+
+const Sum = styled.div`
+  margin: 1rem;
+`;
+
+const total = 0;
 
 export default function Cart() {
   return (
@@ -14,8 +40,11 @@ export default function Cart() {
         <SelectBox isItem={true} contents="item" />
         <SelectBox isItem={false} contents="Discount" />
       </Header>
-      <section></section>
-      <footer></footer>
+      <Section></Section>
+      <Footer>
+        <FooterText>합계</FooterText>
+        <Sum>{total}원</Sum>
+      </Footer>
     </Fragment>
-  )
+  );
 }
