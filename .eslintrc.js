@@ -39,5 +39,12 @@ module.exports = {
     "@typescript-eslint/no-unused-vars": [
       "error"
     ],
+    "no-trailing-spaces": [
+      "error",
+      {
+        "skipBlankLines": true,
+        "ignoreComments": true
+      }
+    ]
   }
 };
