@@ -2,31 +2,31 @@ import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import SelectBox from '../components/SelectBox';
 
-const Header = styled.header`
+const Header = styled('header')`
   display: flex;
   justify-content: space-around;
   border-bottom: 1px dashed #F3F3F3;
   height: 10vh;
 `;
 
-const Section = styled.section`
+const Section = styled('section')`
   height: 80vh;
   overflow-y: scroll;
 `;
 
-const Footer = styled.footer`
+const Footer = styled('footer')`
   display: flex;
   justify-content: space-between;
   border-top: 1px dashed #F3F3F3;
   height: 10vh;
 `;
 
-const FooterText = styled.h6`
+const FooterText = styled('h6')`
   margin: 1rem;
   color: #A6ABAE;
 `;
 
-const Sum = styled.h4`
+const Sum = styled('h4')`
   margin: 1rem;
 `;
 
