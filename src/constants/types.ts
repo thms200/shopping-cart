@@ -1,5 +1,9 @@
-export interface SelectBoxProps {
+export interface SelectionProps {
   kind: string;
+}
+
+export interface TitleProps {
+  text: string;
 }
 
 export interface ItemsProps {
@@ -10,9 +14,16 @@ export interface ItemsProps {
   };
 }
 
+export interface DiscountsProps {
+  [key: string]: {
+    name: string;
+    rate: number;
+  };
+}
+
 export interface InformationsProps {
   items: ItemsProps;
-  discounts: object;
+  discounts: DiscountsProps;
   currency_code: string;
 }
 
