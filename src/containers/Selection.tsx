@@ -2,32 +2,14 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
+import { AiOutlineCheck } from 'react-icons/ai';
+import Title from '../components/Title';
 import { fetchInformation } from '../utils/api';
 import { makeMoneyUnit } from '../utils';
 import { RootState } from '../reducers';
 import { updateSelectedItems } from '../actions';
-import { ItemsProps, InformationsProps } from '../constants/types';
-
-const Header = styled('header')`
-  display: flex;
-  align-items: center;
-  border-bottom: 1px dashed #F3F3F3;
-  height: 10vh;
-`;
-
-const Close = styled(Link)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 10px; 
-  color: #C6D0DA;
-`;
-
-const Title = styled('h4')`
-  margin: 0 auto;
-  padding-right: 35px;
-`;
+import { SelectionProps, ItemsProps, InformationsProps } from '../constants/types';
+import { FOOTER_TEXT } from '../constants';
 
 const Section = styled('section')`
   height: 75vh;
@@ -98,12 +80,13 @@ const Loading = styled('div')`
   }
 `;
 
-export default function Item() {
+export default function Item({ kind }: SelectionProps) {
   const dispatch = useDispatch();
   const currentSelectedItems = useSelector((state: RootState) => state.item.selectedItems);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [informations, setInformation] = useState<InformationsProps>({ items: {}, discounts: {}, currency_code: '' });
   const [selectedItems, setSelectedItems] = useState<ItemsProps>(currentSelectedItems);
+  const isItemPage = kind === 'Item';
 
   const getInformation = async() => {
     try {
@@ -136,10 +119,7 @@ export default function Item() {
 
   return (
     <Fragment>
-      <Header>
-        <Close to="./"><AiOutlineClose size={25} /></Close>
-        <Title>Item</Title>
-      </Header>
+      <Title text={kind}/>
       {isLoading && <Loading><div>Loading..</div></Loading>}
       {!isLoading && <Section>
         {Object.values(informations.items).map((item, index) => {
@@ -157,7 +137,7 @@ export default function Item() {
         })}
       </Section>}
       <Footer>
-        <FooterInformation>서비스를 선택하세요(여러 개 선택가능)</FooterInformation>
+        <FooterInformation>{isItemPage ? FOOTER_TEXT.ITEM : FOOTER_TEXT.DISCOUNT}</FooterInformation>
         <Complete to="./" onClick={completeSelection}>완료</Complete>
       </Footer>
     </Fragment>

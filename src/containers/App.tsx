@@ -1,9 +1,8 @@
 import React, { Fragment } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import Cart from './Cart';
-import Item from './Item';
-import Discount from './Discount';
+import Selection from './Selection';
 
 const GlobalStyle = createGlobalStyle`
   html {
@@ -21,8 +20,9 @@ function App() {
       <GlobalStyle />
       <Switch>
         <Route exact path="/" component={Cart} />
-        <Route path="/item" component={Item} />
-        <Route path="/discount" component={Discount} />
+        <Route path="/item" render={() => <Selection kind="Item" />} />
+        <Route path="/discount" render={() => <Selection kind="Discount" />} />
+        <Redirect path="*" to="/" />
       </Switch>
     </Fragment>
   );
