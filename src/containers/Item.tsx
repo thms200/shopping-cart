@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
 import { fetchInformation } from '../utils/api';
 import { makeMoneyUnit } from '../utils';
 
@@ -108,6 +108,17 @@ export default function Item() {
   const [informations, setInformation] = useState<InformationsProps>({ items: {}, discounts: {}, currency_code: '' });
   const [selectedItems, setSelectedItems] = useState<ItemsProps>({});
 
+  const getInformation = async() => {
+    try {
+      setIsLoading(true);
+      const informations = await fetchInformation();
+      setInformation(informations);
+      setIsLoading(false);
+    } catch(err) {
+      console.warn(err);
+    }
+  };
+
   const selectItem = (ev: React.MouseEvent<HTMLElement>) => {
     const { id } = ev.currentTarget.dataset;
     const selectedItem = informations.items[id as string];
@@ -118,17 +129,6 @@ export default function Item() {
     setSelectedItems(newSelectedItems);
   };
 
-  const getInformation = async() => {
-    try {
-      setIsLoading(true);
-      const informations = await fetchInformation();
-      setInformation(informations);
-      setIsLoading(false);
-    } catch(err) {
-      console.warn(err);
-    }
-  }
-
   useEffect(() => {
     getInformation();
   }, []);
@@ -136,7 +136,7 @@ export default function Item() {
   return (
     <Fragment>
       <Header>
-        <Close to="./"><AiOutlineClose size={25}/></Close>
+        <Close to="./"><AiOutlineClose size={25} /></Close>
         <Title>Item</Title>
       </Header>
       {isLoading && <Loading>Loading..</Loading>}

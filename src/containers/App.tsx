@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
 import Cart from './Cart';
 import Item from './Item';
 import Discount from './Discount';
