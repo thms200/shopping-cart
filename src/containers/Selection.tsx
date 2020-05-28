@@ -2,47 +2,13 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { AiOutlineCheck } from 'react-icons/ai';
 import Title from '../components/Title';
+import Options from '../components/Options';
 import { fetchInformation } from '../utils/api';
-import { makeMoneyUnit } from '../utils';
 import { RootState } from '../reducers';
-import { updateSelectedItems } from '../actions';
-import { SelectionProps, ItemsProps, InformationsProps } from '../constants/types';
+import { updateSelectedItems, updateSelectedDiscounts } from '../actions';
+import { SelectionProps, InformationsProps, ItemProps, DiscountProps } from '../constants/types';
 import { FOOTER_TEXT } from '../constants';
-
-const Section = styled('section')`
-  height: 75vh;
-  overflow-y: scroll;
-`;
-
-const ItemRectangle = styled('div')`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const Ul = styled('ul')`
-  width: 80%;
-  margin: 1rem 0 1rem 1rem;
-  padding-left: 0;
-  list-style: none;
-`;
-
-const NameLi = styled('li')`
-  height: 1.2rem;
-  overflow-x: scroll;
-`;
-
-const PriceLi = styled('li')`
-  font-size: 0.7rem;
-  color: #C6D0DA;
-`;
-
-const SelectedItem = styled('div')`
-  color: #998BE9;
-  margin-right: 1rem;
-`;
 
 const Footer = styled('footer')`
   display: flex;
@@ -80,13 +46,16 @@ const Loading = styled('div')`
   }
 `;
 
-export default function Item({ kind }: SelectionProps) {
+export default function Selection({ kind }: SelectionProps) {
   const dispatch = useDispatch();
   const currentSelectedItems = useSelector((state: RootState) => state.item.selectedItems);
+  const currentSelectedDiscounts = useSelector((state: RootState) => state.discount.selectedDiscounts);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [informations, setInformation] = useState<InformationsProps>({ items: {}, discounts: {}, currency_code: '' });
-  const [selectedItems, setSelectedItems] = useState<ItemsProps>(currentSelectedItems);
+  const [selectedItems, setSelectedItems] = useState<ItemProps>(currentSelectedItems);
+  const [selectedDiscounts, setSelectedDiscounts] = useState<DiscountProps>(currentSelectedDiscounts);
   const isItemPage = kind === 'Item';
+  const selectedOptions = isItemPage ? selectedItems : selectedDiscounts;
 
   const getInformation = async() => {
     try {
@@ -99,18 +68,23 @@ export default function Item({ kind }: SelectionProps) {
     }
   };
 
-  const selectItem = (ev: React.MouseEvent<HTMLElement>) => {
+  const selectOption = (ev: React.MouseEvent<HTMLElement>, options: (ItemProps | DiscountProps)) => {
     const { id } = ev.currentTarget.dataset;
-    const selectedItem = informations.items[id as string];
-    const newSelectedItems = Object.assign({}, selectedItems);
-    (newSelectedItems[id as string])
-      ? delete newSelectedItems[id as string]
-      : newSelectedItems[id as string] = selectedItem;
-    setSelectedItems(newSelectedItems);
+    const selectedOption = options[id as string];
+    const newSelectedOptions = { ...selectedOptions };
+    (newSelectedOptions[id as string])
+      ? delete newSelectedOptions[id as string]
+      : newSelectedOptions[id as string] = selectedOption;
+
+    isItemPage
+      ? setSelectedItems(newSelectedOptions as ItemProps)
+      : setSelectedDiscounts(newSelectedOptions as DiscountProps);
   };
 
   const completeSelection = () => {
-    dispatch(updateSelectedItems(selectedItems));
+    isItemPage
+      ? dispatch(updateSelectedItems(selectedItems))
+      : dispatch(updateSelectedDiscounts(selectedDiscounts));
   };
 
   useEffect(() => {
@@ -121,21 +95,14 @@ export default function Item({ kind }: SelectionProps) {
     <Fragment>
       <Title text={kind}/>
       {isLoading && <Loading><div>Loading..</div></Loading>}
-      {!isLoading && <Section>
-        {Object.values(informations.items).map((item, index) => {
-          const { name, price } = item;
-          const id = `i_${index + 1}`;
-          return (
-            <ItemRectangle key={id} data-id={id} onClick={(ev) => selectItem(ev)}>
-              <Ul>
-                <NameLi>{name}</NameLi>
-                <PriceLi>{makeMoneyUnit(price, informations.currency_code)}</PriceLi>
-              </Ul>
-              {selectedItems[id] && <SelectedItem><AiOutlineCheck size={25} /></SelectedItem>}
-            </ItemRectangle>
-          );
-        })}
-      </Section>}
+      {!isLoading &&
+        <Options
+          kind={kind}
+          informations={informations}
+          handleClick={selectOption}
+          selectedOptions={selectedOptions}
+        />
+      }
       <Footer>
         <FooterInformation>{isItemPage ? FOOTER_TEXT.ITEM : FOOTER_TEXT.DISCOUNT}</FooterInformation>
         <Complete to="./" onClick={completeSelection}>완료</Complete>

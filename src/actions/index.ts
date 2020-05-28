@@ -1,12 +1,22 @@
 import {
-  ItemsProps,
+  ItemProps,
+  DiscountProps,
   SELECTED_ITEMS,
-  ItemsActionTypes
+  SELECTED_DISCOUNTS,
+  ItemsActionTypes,
+  DiscountsActionTypes
 } from '../constants/types';
 
-export function updateSelectedItems(items: ItemsProps): ItemsActionTypes {
+export function updateSelectedItems(items: ItemProps): ItemsActionTypes {
   return {
     type: SELECTED_ITEMS,
     items,
+  };
+}
+
+export function updateSelectedDiscounts(discounts: DiscountProps): DiscountsActionTypes {
+  return {
+    type: SELECTED_DISCOUNTS,
+    discounts,
   };
 }
