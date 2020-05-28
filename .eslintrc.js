@@ -26,6 +26,25 @@ module.exports = {
     "@typescript-eslint"
   ],
   "rules": {
+    "semi": [
+      "error"
+    ],
+    "quotes": [
+      "error", 
+      "single"
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "key-spacing": [
+      "error",
+      {
+        "beforeColon": false,
+        "afterColon": true,
+        "mode": "strict"
+      }
+    ],
     "@typescript-eslint/space-before-function-paren":[
       "error",
       "never"

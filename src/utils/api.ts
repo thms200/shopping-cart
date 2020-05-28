@@ -4,6 +4,8 @@ export const fetchInformation = async() => {
   const response = await fetch(API);
   return await response.json();
 };
+<<<<<<< HEAD
+=======
 
 export const addComma = (price: string) => {
   const result = [];
@@ -16,3 +18,4 @@ export const addComma = (price: string) => {
   }
   return result.join('');
 };
+>>>>>>> e18c012aee1be1136c68ef08c1b489124c98d3c9

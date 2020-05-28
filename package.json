@@ -20,11 +20,20 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.0",
+<<<<<<< HEAD
+    "@types/redux-logger": "^3.0.7",
+=======
+>>>>>>> e18c012aee1be1136c68ef08c1b489124c98d3c9
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.19.0",
+<<<<<<< HEAD
+    "react-scripts": "3.4.1",
+    "redux-logger": "^3.0.6"
+=======
     "react-scripts": "3.4.1"
+>>>>>>> e18c012aee1be1136c68ef08c1b489124c98d3c9
   },
   "scripts": {
     "start": "react-scripts start",
