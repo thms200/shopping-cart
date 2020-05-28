@@ -2,10 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoIosAddCircle } from 'react-icons/io';
-
-interface Props {
-  kind: string;
-}
+import { SelectBoxProps } from '../constants/types';
 
 const BoxLink = styled(Link)`
   display: flex;
@@ -17,11 +14,11 @@ const BoxLink = styled(Link)`
   border-style: none;
   font-size: 0.8rem;
   text-decoration: none;
-  color: ${(props: Props) => (props.kind === 'Item') ? '#95989D' : '#EC78A4'};
-  background-color: ${(props: Props) => (props.kind === 'Item') ? '#F7F7F7' : '#FDF2F5'};
+  color: ${(props: SelectBoxProps) => (props.kind === 'Item') ? '#95989D' : '#EC78A4'};
+  background-color: ${(props: SelectBoxProps) => (props.kind === 'Item') ? '#F7F7F7' : '#FDF2F5'};
 `;
 
-export default function SelectBox({ kind }: Props) {
+export default function SelectBox({ kind }: SelectBoxProps) {
   return (
     <BoxLink kind={kind} to={kind.toLowerCase()}>
       <IoIosAddCircle size={15} />

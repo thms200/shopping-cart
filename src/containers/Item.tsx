@@ -1,23 +1,13 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { AiOutlineClose, AiOutlineCheck } from 'react-icons/ai';
 import { fetchInformation } from '../utils/api';
 import { makeMoneyUnit } from '../utils';
-
-interface ItemsProps {
-  [key: string]: {
-    name: string;
-    price: number;
-    count: number;
-  };
-}
-
-interface InformationsProps {
-  items: ItemsProps;
-  discounts: object;
-  currency_code: string;
-}
+import { RootState } from '../reducers';
+import { updateSelectedItems } from '../actions';
+import { ItemsProps, InformationsProps } from '../constants/types';
 
 const Header = styled('header')`
   display: flex;
@@ -87,26 +77,33 @@ const FooterInformation = styled('div')`
   color: #E6D9FF;
 `;
 
-const SelectButton = styled('button')`
+const Complete = styled(Link)`
   width: 90%;
   padding: 0.5rem 0;
   border-radius: 8px;
   font-size: 0.8rem;
   color: #FDF8FF;
+  text-align: center;
+  text-decoration: none;
   background-color: #DACDFF;
 `;
 
 const Loading = styled('div')`
   height: 75vh;
-  margin: 1rem;
   text-align: center;
   color: #9985F0;
+
+  div {
+    padding-top: 1rem;
+  }
 `;
 
 export default function Item() {
+  const dispatch = useDispatch();
+  const currentSelectedItems = useSelector((state: RootState) => state.item.selectedItems);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [informations, setInformation] = useState<InformationsProps>({ items: {}, discounts: {}, currency_code: '' });
-  const [selectedItems, setSelectedItems] = useState<ItemsProps>({});
+  const [selectedItems, setSelectedItems] = useState<ItemsProps>(currentSelectedItems);
 
   const getInformation = async() => {
     try {
@@ -129,6 +126,10 @@ export default function Item() {
     setSelectedItems(newSelectedItems);
   };
 
+  const completeSelection = () => {
+    dispatch(updateSelectedItems(selectedItems));
+  };
+
   useEffect(() => {
     getInformation();
   }, []);
@@ -139,8 +140,8 @@ export default function Item() {
         <Close to="./"><AiOutlineClose size={25} /></Close>
         <Title>Item</Title>
       </Header>
-      {isLoading && <Loading>Loading..</Loading>}
-      <Section>
+      {isLoading && <Loading><div>Loading..</div></Loading>}
+      {!isLoading && <Section>
         {Object.values(informations.items).map((item, index) => {
           const { name, price } = item;
           const id = `i_${index + 1}`;
@@ -154,10 +155,10 @@ export default function Item() {
             </ItemRectangle>
           );
         })}
-      </Section>
+      </Section>}
       <Footer>
         <FooterInformation>서비스를 선택하세요(여러 개 선택가능)</FooterInformation>
-        <SelectButton>완료</SelectButton>
+        <Complete to="./" onClick={completeSelection}>완료</Complete>
       </Footer>
     </Fragment>
   );
