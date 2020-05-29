@@ -7,7 +7,7 @@ import Options from '../components/Options';
 import { fetchInformation } from '../utils/api';
 import { RootState } from '../reducers';
 import { updateSelectedItems, updateSelectedDiscounts, updateCurrencyCode } from '../actions';
-import { SelectionProps, InformationsProps, ItemProps, DiscountProps } from '../constants/types';
+import { SelectionProps, InformationsProps, ItemProps, DiscountProps, ItemOrDiscount, TogglableOptions } from '../constants/types';
 import { FOOTER_TEXT } from '../constants';
 
 const Section = styled('section')`
@@ -75,17 +75,22 @@ export default function Selection({ kind }: SelectionProps) {
     }
   };
 
+  const toggleOptionList = (currentOptionList: ItemOrDiscount, newOption: TogglableOptions, id: string) => {
+    const currentList = { ...currentOptionList };
+    currentList[id]
+      ? delete currentList[id]
+      : (currentList[id] as any) = newOption;
+    return currentList;
+  };
+
   const selectOption = (ev: React.MouseEvent<HTMLElement>) => {
     const { id } = ev.currentTarget.dataset;
     const selectedOption = options[id as string];
-    const newSelectedOptions = { ...selectedOptions };
-    (newSelectedOptions[id as string])
-      ? delete newSelectedOptions[id as string]
-      : newSelectedOptions[id as string] = selectedOption;
+    const newOptionList = toggleOptionList(selectedOptions, selectedOption, id!);
 
     isItemPage
-      ? setSelectedItems(newSelectedOptions as ItemProps)
-      : setSelectedDiscounts(newSelectedOptions as DiscountProps);
+      ? setSelectedItems(newOptionList as ItemProps)
+      : setSelectedDiscounts(newOptionList as DiscountProps);
   };
 
   const completeSelection = () => {

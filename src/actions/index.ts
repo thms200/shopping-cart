@@ -6,6 +6,7 @@ import {
   UPDATE_ITEM_COUNT,
   UPDATE_CURRENCY_CODE,
   DELETE_ITEM,
+  DELETE_DISCOUNT,
   ItemsActionTypes,
   DiscountsActionTypes,
 } from '../constants/types';
@@ -43,5 +44,12 @@ export function updateSelectedDiscounts(discounts: DiscountProps): DiscountsActi
   return {
     type: UPDATE_SELECTED_DISCOUNTS,
     discounts,
+  };
+}
+
+export function deleteDiscount(id: string): DiscountsActionTypes {
+  return {
+    type: DELETE_DISCOUNT,
+    id,
   };
 }

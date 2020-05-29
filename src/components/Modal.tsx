@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Options from './Options';
 import Count from './Count';
 import { RootState } from '../reducers';
-import { updateItemCount, deleteItem } from '../actions';
+import { updateItemCount, deleteItem, deleteDiscount } from '../actions';
 import { ModalProps, ItemProps } from '../constants/types';
 
 const Wrapper = styled('div')`
@@ -63,12 +63,13 @@ export default function Modal({ isShow, name, count, onClose, id }: ModalProps) 
   if (!isShow) {
     return null;
   }
-  const handleClick = (ev: React.MouseEvent<HTMLElement>) => {
+
+  const selectItem = (ev: React.MouseEvent<HTMLElement>) => {
     const { id } = ev.currentTarget.dataset;
-    const currentSelectedItem = items[id as string];
-    const newSelectedItem: ItemProps = {};
-    newSelectedItem[id as string] = currentSelectedItem;
-    setSelectedItem(newSelectedItem);
+    const selectedItem = items[id as string];
+    const newItem: ItemProps = {};
+    newItem[id as string] = selectedItem;
+    setSelectedItem(newItem);
   };
 
   const updateCount = (ev: React.MouseEvent<HTMLElement>) => {
@@ -83,7 +84,7 @@ export default function Modal({ isShow, name, count, onClose, id }: ModalProps) 
   const deleteOption = () => {
     count
       ? dispatch(deleteItem(id))
-      : dispatch(deleteItem(id));
+      : dispatch(deleteDiscount(id));
     onClose();
   };
 
@@ -96,7 +97,7 @@ export default function Modal({ isShow, name, count, onClose, id }: ModalProps) 
           options={items}
           currency_code={'KRW'}
           selectedOptions={selectedItem}
-          handleClick={handleClick}
+          handleClick={selectItem}
         />}
         {count && <Count handleClick={updateCount} currentCount={updatedCount}/>}
       </Section>

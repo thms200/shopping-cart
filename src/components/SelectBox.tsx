@@ -14,14 +14,19 @@ const BoxLink = styled(Link)<SelectionProps>`
   border-style: none;
   font-size: 0.8rem;
   text-decoration: none;
-  color: ${({ kind, isClickDisabled }) => (kind === 'Item' || isClickDisabled) ? '#95989D' : '#EC78A4'};
-  background-color: ${({ kind, isClickDisabled }) => (kind === 'Item' || isClickDisabled) ? '#F7F7F7' : '#FDF2F5'};
-  pointer-events: ${({ isClickDisabled }) => (isClickDisabled) ? 'none' : 'auto'};
+  color: ${({ kind }) => (kind === 'Item') ? '#95989D' : '#EC78A4'};
+  background-color: ${({ kind }) => (kind === 'Item') ? '#F7F7F7' : '#FDF2F5'};
+
+  &.disabled {
+    pointer-events: none;
+    color: #95989D;
+    background-color: #F7F7F7;
+  }
 `;
 
 export default function SelectBox({ kind, isClickDisabled }: SelectionProps) {
   return (
-    <BoxLink kind={kind} to={kind.toLowerCase()} isClickDisabled={isClickDisabled}>
+    <BoxLink kind={kind} to={kind.toLowerCase()} className={isClickDisabled ? 'disabled' : ''}>
       <IoIosAddCircle size={15} />
       {kind}
     </BoxLink>
