@@ -19,6 +19,7 @@ export interface DiscountProps {
   [key: string]: {
     name: string;
     rate: number;
+    item?: string;
   };
 }
 
@@ -114,6 +115,7 @@ export type ItemsActionTypes = UpdateSelectedItems | UpdateCurrencyCode | Update
 // [Redux] - discount
 export const UPDATE_SELECTED_DISCOUNTS = 'UPDATE_SELECTED_DISCOUNTS';
 export const DELETE_DISCOUNT = 'DELETE_DISCOUNT';
+export const UPDATE_DISCOUNT_ITEM = 'UPDATE_DISCOUNT_ITEM';
 
 export interface DiscountsState {
   selectedDiscounts: DiscountProps;
@@ -129,4 +131,10 @@ interface DeleteDiscount {
   id: string,
 }
 
-export type DiscountsActionTypes = UpdateSelectedDiscounts | DeleteDiscount;
+interface UpdateDiscountItem {
+  type: typeof UPDATE_DISCOUNT_ITEM,
+  id: string,
+  selectedItem: string,
+}
+
+export type DiscountsActionTypes = UpdateSelectedDiscounts | DeleteDiscount | UpdateDiscountItem;

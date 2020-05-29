@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Options from './Options';
 import Count from './Count';
 import { RootState } from '../reducers';
-import { updateItemCount, deleteItem, deleteDiscount } from '../actions';
+import { updateItemCount, deleteItem, deleteDiscount, updateDiscountItem } from '../actions';
 import { ModalProps, ItemProps } from '../constants/types';
 
 const Wrapper = styled('div')`
@@ -78,7 +78,10 @@ export default function Modal({ isShow, name, count, onClose, id }: ModalProps) 
   };
 
   const completeProcess = () => {
-    dispatch(updateItemCount(id, updatedCount));
+    const discountItem = Object.keys(selectedItem)[0];
+    count
+      ? dispatch(updateItemCount(id, updatedCount))
+      : dispatch(updateDiscountItem(id, discountItem));
     onClose();
   };
 
