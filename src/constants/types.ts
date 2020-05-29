@@ -29,16 +29,26 @@ export interface InformationsProps {
 
 export interface OptionProps {
   kind: string;
-  informations: InformationsProps;
-  handleClick: (ev: React.MouseEvent<HTMLElement>, options: (ItemProps | DiscountProps)) => void;
-  selectedOptions: ItemProps | DiscountProps;
+  options: ItemProps | DiscountProps;
+  selectedOptions?: ItemProps | DiscountProps;
+  handleClick?: (ev: React.MouseEvent<HTMLElement>, options: (ItemProps | DiscountProps)) => void;
+  currency_code: string;
+}
+
+export interface NumberProps {
+  kind: string;
+  currency_code: string;
+  price?: number;
+  rate?: number;
 }
 
 // [Redux] - item
 export const SELECTED_ITEMS = 'SELECTED_ITEMS';
+export const CURRENCY_CODE = 'CURRENCY_CODE';
 
 export interface ItemsState {
   selectedItems: ItemProps;
+  currencyCode: string;
 }
 
 interface SelectedItems {
@@ -46,7 +56,12 @@ interface SelectedItems {
   items: ItemProps,
 }
 
-export type ItemsActionTypes = SelectedItems;
+interface UpdatedCurrencyCode {
+  type: typeof CURRENCY_CODE,
+  currencyCode: string;
+}
+
+export type ItemsActionTypes = SelectedItems | UpdatedCurrencyCode;
 
 // [Redux] - discount
 export const SELECTED_DISCOUNTS = 'SELECTED_DISCOUNTS';

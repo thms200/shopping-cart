@@ -6,9 +6,14 @@ import Title from '../components/Title';
 import Options from '../components/Options';
 import { fetchInformation } from '../utils/api';
 import { RootState } from '../reducers';
-import { updateSelectedItems, updateSelectedDiscounts } from '../actions';
+import { updateSelectedItems, updateSelectedDiscounts, updateCurrencyCode } from '../actions';
 import { SelectionProps, InformationsProps, ItemProps, DiscountProps } from '../constants/types';
 import { FOOTER_TEXT } from '../constants';
+
+const Section = styled('section')`
+  height: 75vh;
+  overflow-y: scroll;
+`;
 
 const Footer = styled('footer')`
   display: flex;
@@ -82,6 +87,7 @@ export default function Selection({ kind }: SelectionProps) {
   };
 
   const completeSelection = () => {
+    dispatch(updateCurrencyCode(informations.currency_code));
     isItemPage
       ? dispatch(updateSelectedItems(selectedItems))
       : dispatch(updateSelectedDiscounts(selectedDiscounts));
@@ -95,14 +101,26 @@ export default function Selection({ kind }: SelectionProps) {
     <Fragment>
       <Title text={kind}/>
       {isLoading && <Loading><div>Loading..</div></Loading>}
-      {!isLoading &&
-        <Options
-          kind={kind}
-          informations={informations}
-          handleClick={selectOption}
-          selectedOptions={selectedOptions}
-        />
-      }
+      <Section>
+        {!isLoading && isItemPage &&
+          <Options
+            kind={kind}
+            options={informations.items}
+            selectedOptions={selectedItems}
+            handleClick={selectOption}
+            currency_code={informations.currency_code}
+          />
+        }
+        {!isLoading && !isItemPage &&
+          <Options
+            kind={kind}
+            options={informations.discounts}
+            selectedOptions={selectedDiscounts}
+            handleClick={selectOption}
+            currency_code={informations.currency_code}
+          />
+        }
+      </Section>
       <Footer>
         <FooterInformation>{isItemPage ? FOOTER_TEXT.ITEM : FOOTER_TEXT.DISCOUNT}</FooterInformation>
         <Complete to="./" onClick={completeSelection}>완료</Complete>
