@@ -63,6 +63,7 @@ export default function Cart() {
             options={currentSelectedDiscounts}
             currency_code={currentCurrencyCode}
             totalPrice={totalPrice}
+            itemList={currentSelectedItems}
           />
         )}
       </Section>

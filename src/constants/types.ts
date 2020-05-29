@@ -45,6 +45,7 @@ export interface OptionProps {
   handleClick?: (ev: React.MouseEvent<HTMLElement>) => void;
   currency_code: string;
   totalPrice?: number;
+  itemList?: ItemProps;
 }
 
 export interface NumberProps {
@@ -53,6 +54,8 @@ export interface NumberProps {
   price?: number;
   rate?: number;
   totalPrice?: number;
+  itemList?: ItemProps;
+  itemId: string;
 }
 
 export interface ModifyOptionProps {
