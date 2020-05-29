@@ -59,6 +59,7 @@ export default function Modal({ isShow, name, count, onClose, id }: ModalProps) 
   const items = useSelector((state: RootState) => state.item.selectedItems);
   const [selectedItem, setSelectedItem] = useState<ItemProps>({});
   const [updatedCount, setUpdateCount] = useState<number>(0);
+  const completeText = count ? '완료' : '확인';
 
   if (!isShow) {
     return null;
@@ -103,7 +104,7 @@ export default function Modal({ isShow, name, count, onClose, id }: ModalProps) 
       </Section>
       <Footer>
         <Delete onClick={deleteOption}>삭제</Delete>
-        <Complete onClick={completeProcess}>완료</Complete>
+        <Complete onClick={completeProcess}>{completeText}</Complete>
       </Footer>
     </Wrapper>
   );
