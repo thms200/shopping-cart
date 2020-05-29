@@ -41,7 +41,7 @@ export default function Cart() {
   const currentCurrencyCode = useSelector((state: RootState) => state.item.currencyCode);
   const currentSelectedDiscounts = useSelector((state: RootState) => state.discount.selectedDiscounts);
   const isDiscountDisabled = Object.keys(currentSelectedItems).length === 0;
-  const totalPrice = sumPrice(currentSelectedItems);
+  const itemsPrice = sumPrice(currentSelectedItems);
 
   return (
     <Fragment>
@@ -62,7 +62,7 @@ export default function Cart() {
             kind="Discount"
             options={currentSelectedDiscounts}
             currency_code={currentCurrencyCode}
-            totalPrice={totalPrice}
+            itemsPrice={itemsPrice}
             itemList={currentSelectedItems}
           />
         )}

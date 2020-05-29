@@ -22,7 +22,7 @@ const NameLi = styled('li')`
   color: black;
 `;
 
-export default function Options({ kind, options, selectedOptions, handleClick, currency_code, totalPrice, itemList }: OptionProps) {
+export default function Options({ kind, options, selectedOptions, handleClick, currency_code, itemsPrice, itemList }: OptionProps) {
   const onClick = (ev: React.MouseEvent<HTMLElement>) => {
     if(handleClick) handleClick!(ev);
   };
@@ -40,7 +40,7 @@ export default function Options({ kind, options, selectedOptions, handleClick, c
                 currency_code={currency_code}
                 price={option.price * option.count}
                 rate={option.rate}
-                totalPrice={totalPrice}
+                itemsPrice={itemsPrice}
                 itemList={itemList}
                 itemId={option.item}
               />
