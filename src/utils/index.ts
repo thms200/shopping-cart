@@ -1,5 +1,5 @@
 import { MONEY_UNIT } from '../constants';
-import { ItemProps } from '../constants/types';
+import { ItemProps, DiscountProps } from '../constants/types';
 
 const addComma = (price: string) => {
   const result = [];
@@ -26,9 +26,19 @@ export const makeMoneyUnit = (price: number, unit: string) => {
   }
 };
 
-export const sumPrice = (selectedItems: ItemProps) => {
+export const sumItemPrice = (selectedItems: ItemProps) => {
   return Object.values(selectedItems).reduce((sum, item) => {
     sum = sum + item.count * item.price;
+    return sum;
+  }, 0);
+};
+
+export const sumDiscountPrice = (itemsPrice: number, currentDiscounts: DiscountProps, itemList: ItemProps) => {
+  return Object.values(currentDiscounts).reduce((sum, discount) => {
+    const { item, rate } = discount;
+    sum = item
+      ? sum + Math.round((itemList[item!].price * itemList[item!].count) * rate)
+      : sum + Math.round(itemsPrice * rate);
     return sum;
   }, 0);
 };

@@ -4,7 +4,7 @@ import { RootState } from '../reducers';
 import styled from 'styled-components';
 import SelectBox from '../components/SelectBox';
 import Options from '../components/Options';
-import { sumPrice } from '../utils';
+import { sumItemPrice, sumDiscountPrice, makeMoneyUnit } from '../utils';
 
 const Header = styled('header')`
   display: flex;
@@ -34,14 +34,14 @@ const Sum = styled('h4')`
   margin: 1rem;
 `;
 
-const total = 0;
-
 export default function Cart() {
   const currentSelectedItems = useSelector((state: RootState) => state.item.selectedItems);
   const currentCurrencyCode = useSelector((state: RootState) => state.item.currencyCode);
   const currentSelectedDiscounts = useSelector((state: RootState) => state.discount.selectedDiscounts);
   const isDiscountDisabled = Object.keys(currentSelectedItems).length === 0;
-  const itemsPrice = sumPrice(currentSelectedItems);
+  const itemsPrice = sumItemPrice(currentSelectedItems);
+  const discountsPrice = sumDiscountPrice(itemsPrice, currentSelectedDiscounts, currentSelectedItems);
+  const total = makeMoneyUnit(itemsPrice - discountsPrice, currentCurrencyCode);
 
   return (
     <Fragment>
@@ -69,7 +69,7 @@ export default function Cart() {
       </Section>
       <Footer>
         <FooterText>합계</FooterText>
-        <Sum>{total}원</Sum>
+        <Sum>{total}</Sum>
       </Footer>
     </Fragment>
   );
