@@ -1,13 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import { AiOutlineCheck } from 'react-icons/ai';
-import { OptionProps, SelectionProps } from '../constants/types';
-import { makeMoneyUnit } from '../utils';
-
-const Section = styled('section')`
-  height: 75vh;
-  overflow-y: scroll;
-`;
+import Number from './Number';
+import SelectedOption from './SelectedOption';
+import ModifyOption from './ModifyOption';
+import { OptionProps } from '../constants/types';
 
 const OptionWrapper = styled('div')`
   display: flex;
@@ -16,50 +12,44 @@ const OptionWrapper = styled('div')`
 `;
 
 const Ul = styled('ul')`
-  width: 80%;
+  width: 70%;
   margin: 1rem 0 1rem 1rem;
   padding-left: 0;
   list-style: none;
 `;
 
-const NumberLi = styled('li')`
-  font-size: 0.7rem;
-  color: ${(props: SelectionProps) => (props.kind === 'Item') ? '#95989D' : '#EC78A4'};
+const NameLi = styled('li')`
+  color: black;
 `;
 
-const SelectedOption = styled('div')`
-  color: #998BE9;
-  margin-right: 1rem;
-`;
-
-export default function Options({ kind, informations, handleClick, selectedOptions }: OptionProps) {
-  const isItemPage = kind === 'Item';
-  const { items, discounts, currency_code } = informations;
-  const options = isItemPage ? items : discounts;
-  const idStarter = isItemPage ? 'i' : 'd';
+export default function Options({ kind, options, selectedOptions, handleClick, currency_code, totalPrice, itemList }: OptionProps) {
   const onClick = (ev: React.MouseEvent<HTMLElement>) => {
-    handleClick(ev, options);
+    if(handleClick) handleClick!(ev);
   };
   return (
-    <Section>
+    <Fragment>
       {Object.values(options).map((option, index) => {
+        const id = Object.keys(options)[index];
         const { name } = option;
-        const id = `${idStarter}_${index + 1}`;
         return (
           <OptionWrapper key={id} data-id={id} onClick={onClick}>
             <Ul>
-              <li>{name}</li>
-              <NumberLi kind={kind}>
-                {isItemPage
-                  ? makeMoneyUnit(option.price, currency_code)
-                  : `${(option.rate * 100).toFixed()}%`
-                }
-              </NumberLi>
+              <NameLi>{name}</NameLi>
+              <Number
+                kind={kind}
+                currency_code={currency_code}
+                price={option.price * option.count}
+                rate={option.rate}
+                totalPrice={totalPrice}
+                itemList={itemList}
+                itemId={option.item}
+              />
             </Ul>
-            {selectedOptions[id] && <SelectedOption><AiOutlineCheck size={25} /></SelectedOption>}
+            {selectedOptions && selectedOptions![id] && <SelectedOption />}
+            {!selectedOptions && <ModifyOption count={option.count} name={option.name} id={id} />}
           </OptionWrapper>
         );
       })}
-    </Section>
+    </Fragment>
   );
 }

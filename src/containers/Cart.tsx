@@ -1,6 +1,10 @@
 import React, { Fragment } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../reducers';
 import styled from 'styled-components';
 import SelectBox from '../components/SelectBox';
+import Options from '../components/Options';
+import { sumPrice } from '../utils';
 
 const Header = styled('header')`
   display: flex;
@@ -33,13 +37,36 @@ const Sum = styled('h4')`
 const total = 0;
 
 export default function Cart() {
+  const currentSelectedItems = useSelector((state: RootState) => state.item.selectedItems);
+  const currentCurrencyCode = useSelector((state: RootState) => state.item.currencyCode);
+  const currentSelectedDiscounts = useSelector((state: RootState) => state.discount.selectedDiscounts);
+  const isDiscountDisabled = Object.keys(currentSelectedItems).length === 0;
+  const totalPrice = sumPrice(currentSelectedItems);
+
   return (
     <Fragment>
       <Header>
         <SelectBox kind="Item" />
-        <SelectBox kind="Discount" />
+        <SelectBox kind="Discount" isClickDisabled={isDiscountDisabled} />
       </Header>
-      <Section></Section>
+      <Section>
+        {currentSelectedItems && (
+          <Options
+            kind="Item"
+            options={currentSelectedItems}
+            currency_code={currentCurrencyCode}
+          />
+        )}
+        {currentSelectedDiscounts && (
+          <Options
+            kind="Discount"
+            options={currentSelectedDiscounts}
+            currency_code={currentCurrencyCode}
+            totalPrice={totalPrice}
+            itemList={currentSelectedItems}
+          />
+        )}
+      </Section>
       <Footer>
         <FooterText>합계</FooterText>
         <Sum>{total}원</Sum>

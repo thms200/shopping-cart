@@ -6,9 +6,15 @@ import Title from '../components/Title';
 import Options from '../components/Options';
 import { fetchInformation } from '../utils/api';
 import { RootState } from '../reducers';
-import { updateSelectedItems, updateSelectedDiscounts } from '../actions';
-import { SelectionProps, InformationsProps, ItemProps, DiscountProps } from '../constants/types';
+import { updateSelectedItems, updateSelectedDiscounts, updateCurrencyCode } from '../actions';
+import { SelectionProps, InformationsProps, ItemProps, DiscountProps, ItemOrDiscount, TogglableOptions } from '../constants/types';
 import { FOOTER_TEXT } from '../constants';
+
+const Section = styled('section')`
+  position: relative;
+  height: 75vh;
+  overflow-y: scroll;
+`;
 
 const Footer = styled('footer')`
   display: flex;
@@ -55,6 +61,7 @@ export default function Selection({ kind }: SelectionProps) {
   const [selectedItems, setSelectedItems] = useState<ItemProps>(currentSelectedItems);
   const [selectedDiscounts, setSelectedDiscounts] = useState<DiscountProps>(currentSelectedDiscounts);
   const isItemPage = kind === 'Item';
+  const options = isItemPage ? informations.items : informations.discounts;
   const selectedOptions = isItemPage ? selectedItems : selectedDiscounts;
 
   const getInformation = async() => {
@@ -68,20 +75,26 @@ export default function Selection({ kind }: SelectionProps) {
     }
   };
 
-  const selectOption = (ev: React.MouseEvent<HTMLElement>, options: (ItemProps | DiscountProps)) => {
+  const toggleOptionList = (currentOptionList: ItemOrDiscount, newOption: TogglableOptions, id: string) => {
+    const currentList = { ...currentOptionList };
+    currentList[id]
+      ? delete currentList[id]
+      : (currentList[id] as any) = newOption;
+    return currentList;
+  };
+
+  const selectOption = (ev: React.MouseEvent<HTMLElement>) => {
     const { id } = ev.currentTarget.dataset;
     const selectedOption = options[id as string];
-    const newSelectedOptions = { ...selectedOptions };
-    (newSelectedOptions[id as string])
-      ? delete newSelectedOptions[id as string]
-      : newSelectedOptions[id as string] = selectedOption;
+    const newOptionList = toggleOptionList(selectedOptions, selectedOption, id!);
 
     isItemPage
-      ? setSelectedItems(newSelectedOptions as ItemProps)
-      : setSelectedDiscounts(newSelectedOptions as DiscountProps);
+      ? setSelectedItems(newOptionList as ItemProps)
+      : setSelectedDiscounts(newOptionList as DiscountProps);
   };
 
   const completeSelection = () => {
+    dispatch(updateCurrencyCode(informations.currency_code));
     isItemPage
       ? dispatch(updateSelectedItems(selectedItems))
       : dispatch(updateSelectedDiscounts(selectedDiscounts));
@@ -93,16 +106,30 @@ export default function Selection({ kind }: SelectionProps) {
 
   return (
     <Fragment>
-      <Title text={kind}/>
+      <Title text={kind} />
       {isLoading && <Loading><div>Loading..</div></Loading>}
-      {!isLoading &&
-        <Options
-          kind={kind}
-          informations={informations}
-          handleClick={selectOption}
-          selectedOptions={selectedOptions}
-        />
-      }
+      {!isLoading && isItemPage && (
+        <Section>
+          <Options
+            kind={kind}
+            options={informations.items}
+            selectedOptions={selectedItems}
+            handleClick={selectOption}
+            currency_code={informations.currency_code}
+          />
+        </Section>
+      )}
+      {!isLoading && !isItemPage && (
+        <Section>
+          <Options
+            kind={kind}
+            options={informations.discounts}
+            selectedOptions={selectedDiscounts}
+            handleClick={selectOption}
+            currency_code={informations.currency_code}
+          />
+        </Section>
+      )}
       <Footer>
         <FooterInformation>{isItemPage ? FOOTER_TEXT.ITEM : FOOTER_TEXT.DISCOUNT}</FooterInformation>
         <Complete to="./" onClick={completeSelection}>완료</Complete>

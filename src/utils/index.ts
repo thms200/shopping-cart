@@ -1,4 +1,5 @@
 import { MONEY_UNIT } from '../constants';
+import { ItemProps } from '../constants/types';
 
 const addComma = (price: string) => {
   const result = [];
@@ -23,4 +24,31 @@ export const makeMoneyUnit = (price: number, unit: string) => {
     default:
       return `${priceWithComma}원`;
   }
+};
+
+export const sumPrice = (selectedItems: ItemProps) => {
+  return Object.values(selectedItems).reduce((sum, item) => {
+    sum = sum + item.count * item.price;
+    return sum;
+  }, 0);
+};
+
+export const makeDiscountPrice = (rate: number, totalPrice: number, unit: string, itemList: ItemProps, itemID: string) => {
+  const sum = itemID && itemList[itemID]
+    ? itemList[itemID].price * itemList[itemID].count
+    : totalPrice;
+  const caculatedPrice = Math.round(sum * rate);
+  const percentage = `${(rate! * 100).toFixed()}%`;
+  const result = caculatedPrice
+    ? `-${makeMoneyUnit(caculatedPrice, unit)}(${percentage})`
+    : percentage;
+  return result;
+};
+
+export const makeCountArray = (max: number) => {
+  const result = [];
+  for (let i = 1; i <= max; i++) {
+    result.push(i);
+  }
+  return result;
 };
