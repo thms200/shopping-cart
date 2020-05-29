@@ -40,9 +40,10 @@ export type ItemOrDiscount = ItemProps | DiscountProps;
 export interface OptionProps {
   kind: string;
   options: ItemOrDiscount;
-  selectedOptions?: ItemOrDiscount
+  selectedOptions?: ItemOrDiscount;
   handleClick?: (ev: React.MouseEvent<HTMLElement>) => void;
   currency_code: string;
+  totalPrice?: number;
 }
 
 export interface NumberProps {
@@ -50,6 +51,7 @@ export interface NumberProps {
   currency_code: string;
   price?: number;
   rate?: number;
+  totalPrice?: number;
 }
 
 export interface ModifyOptionProps {
