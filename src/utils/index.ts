@@ -24,3 +24,11 @@ export const makeMoneyUnit = (price: number, unit: string) => {
       return `${priceWithComma}원`;
   }
 };
+
+export const makeCountArray = (max: number) => {
+  const result = [];
+  for (let i = 1; i <= max; i++) {
+    result.push(i);
+  }
+  return result;
+};

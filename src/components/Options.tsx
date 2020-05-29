@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import { AiOutlineCheck } from 'react-icons/ai';
 import Number from './Number';
+import SelectedOption from './SelectedOption';
+import ModifyOption from './ModifyOption';
 import { OptionProps } from '../constants/types';
 
 const OptionWrapper = styled('div')`
@@ -11,22 +12,21 @@ const OptionWrapper = styled('div')`
 `;
 
 const Ul = styled('ul')`
-  width: 80%;
+  width: 70%;
   margin: 1rem 0 1rem 1rem;
   padding-left: 0;
   list-style: none;
 `;
 
-const SelectedOption = styled('div')`
-  color: #998BE9;
-  margin-right: 1rem;
+const NameLi = styled('li')`
+  color: black;
 `;
 
 export default function Options({ kind, options, selectedOptions, handleClick, currency_code }: OptionProps) {
   const isItemPage = kind === 'Item';
   const idStarter = isItemPage ? 'i' : 'd';
   const onClick = (ev: React.MouseEvent<HTMLElement>) => {
-    if(handleClick) handleClick!(ev, options);
+    if(handleClick) handleClick!(ev);
   };
   return (
     <Fragment>
@@ -36,15 +36,16 @@ export default function Options({ kind, options, selectedOptions, handleClick, c
         return (
           <OptionWrapper key={id} data-id={id} onClick={onClick}>
             <Ul>
-              <li>{name}</li>
+              <NameLi>{name}</NameLi>
               <Number
                 kind={kind}
                 currency_code={currency_code}
-                price={option.price}
+                price={option.price * option.count}
                 rate={option.rate}
               />
             </Ul>
-            {selectedOptions && selectedOptions![id] && <SelectedOption><AiOutlineCheck size={25} /></SelectedOption>}
+            {selectedOptions && selectedOptions![id] && <SelectedOption />}
+            {!selectedOptions && <ModifyOption count={option.count} name={option.name} />}
           </OptionWrapper>
         );
       })}

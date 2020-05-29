@@ -27,11 +27,13 @@ export interface InformationsProps {
   currency_code: string;
 }
 
+export type ItemOrDiscount = ItemProps | DiscountProps;
+
 export interface OptionProps {
   kind: string;
-  options: ItemProps | DiscountProps;
-  selectedOptions?: ItemProps | DiscountProps;
-  handleClick?: (ev: React.MouseEvent<HTMLElement>, options: (ItemProps | DiscountProps)) => void;
+  options: ItemOrDiscount;
+  selectedOptions?: ItemOrDiscount
+  handleClick?: (ev: React.MouseEvent<HTMLElement>) => void;
   currency_code: string;
 }
 
@@ -42,9 +44,21 @@ export interface NumberProps {
   rate?: number;
 }
 
+export interface ModifyOptionProps {
+  count: number;
+  name: string;
+}
+
+export interface ModalProps {
+  isShow: boolean;
+  name: string;
+  count: number;
+}
+
 // [Redux] - item
 export const SELECTED_ITEMS = 'SELECTED_ITEMS';
 export const CURRENCY_CODE = 'CURRENCY_CODE';
+export const ITEM_COUNT = 'ITME_COUNT';
 
 export interface ItemsState {
   selectedItems: ItemProps;
@@ -61,7 +75,13 @@ interface UpdatedCurrencyCode {
   currencyCode: string;
 }
 
-export type ItemsActionTypes = SelectedItems | UpdatedCurrencyCode;
+interface UpdateItemCount {
+  type: typeof ITEM_COUNT,
+  id: string;
+  count: number;
+}
+
+export type ItemsActionTypes = SelectedItems | UpdatedCurrencyCode | UpdateItemCount;
 
 // [Redux] - discount
 export const SELECTED_DISCOUNTS = 'SELECTED_DISCOUNTS';

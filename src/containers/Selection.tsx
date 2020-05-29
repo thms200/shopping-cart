@@ -11,6 +11,7 @@ import { SelectionProps, InformationsProps, ItemProps, DiscountProps } from '../
 import { FOOTER_TEXT } from '../constants';
 
 const Section = styled('section')`
+  position: relative;
   height: 75vh;
   overflow-y: scroll;
 `;
@@ -60,6 +61,7 @@ export default function Selection({ kind }: SelectionProps) {
   const [selectedItems, setSelectedItems] = useState<ItemProps>(currentSelectedItems);
   const [selectedDiscounts, setSelectedDiscounts] = useState<DiscountProps>(currentSelectedDiscounts);
   const isItemPage = kind === 'Item';
+  const options = isItemPage ? informations.items : informations.discounts;
   const selectedOptions = isItemPage ? selectedItems : selectedDiscounts;
 
   const getInformation = async() => {
@@ -73,7 +75,7 @@ export default function Selection({ kind }: SelectionProps) {
     }
   };
 
-  const selectOption = (ev: React.MouseEvent<HTMLElement>, options: (ItemProps | DiscountProps)) => {
+  const selectOption = (ev: React.MouseEvent<HTMLElement>) => {
     const { id } = ev.currentTarget.dataset;
     const selectedOption = options[id as string];
     const newSelectedOptions = { ...selectedOptions };
