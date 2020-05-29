@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { makeMoneyUnit } from '../utils';
 import { NumberProps, SelectionProps } from '../constants/types';
 
-const NumberLi = styled('li')`
+const NumberLi = styled('li')<SelectionProps>`
   font-size: 0.7rem;
-  color: ${(props: SelectionProps) => (props.kind === 'Item') ? '#95989D' : '#EC78A4'};
+  color: ${({ kind }) => (kind === 'Item') ? '#95989D' : '#EC78A4'};
 `;
 
 export default function Number({ kind, currency_code, price, rate }: NumberProps) {

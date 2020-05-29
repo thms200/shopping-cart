@@ -23,16 +23,14 @@ const NameLi = styled('li')`
 `;
 
 export default function Options({ kind, options, selectedOptions, handleClick, currency_code }: OptionProps) {
-  const isItemPage = kind === 'Item';
-  const idStarter = isItemPage ? 'i' : 'd';
   const onClick = (ev: React.MouseEvent<HTMLElement>) => {
     if(handleClick) handleClick!(ev);
   };
   return (
     <Fragment>
       {Object.values(options).map((option, index) => {
+        const id = Object.keys(options)[index];
         const { name } = option;
-        const id = `${idStarter}_${index + 1}`;
         return (
           <OptionWrapper key={id} data-id={id} onClick={onClick}>
             <Ul>
@@ -45,7 +43,7 @@ export default function Options({ kind, options, selectedOptions, handleClick, c
               />
             </Ul>
             {selectedOptions && selectedOptions![id] && <SelectedOption />}
-            {!selectedOptions && <ModifyOption count={option.count} name={option.name} />}
+            {!selectedOptions && <ModifyOption count={option.count} name={option.name} id={id} />}
           </OptionWrapper>
         );
       })}

@@ -13,17 +13,17 @@ const Wrapper = styled('div')`
   background-color: #F7F7F7;
 `;
 
-export default function ModifyOption({ count, name }: ModifyOptionProps) {
+export default function ModifyOption({ count, name, id }: ModifyOptionProps) {
   const [isShow, setIsShow] = useState<boolean>(false);
 
   const onClick = () => {
-    setIsShow(true);
+    setIsShow(!isShow);
   };
   return (
-    <Wrapper onClick={onClick}>
+    <Wrapper>
       {count || '수정'}&nbsp;
-      <BsChevronDown size={12} />
-      <Modal isShow={isShow} name={name} count={count} />
+      <BsChevronDown size={12}  onClick={onClick}/>
+      <Modal isShow={isShow} name={name} count={count} onClose={onClick} id={id} />
     </Wrapper>
   );
 }

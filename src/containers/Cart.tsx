@@ -39,23 +39,28 @@ export default function Cart() {
   const currentSelectedItems = useSelector((state: RootState) => state.item.selectedItems);
   const currentCurrencyCode = useSelector((state: RootState) => state.item.currencyCode);
   const currentSelectedDiscounts = useSelector((state: RootState) => state.discount.selectedDiscounts);
+  const isDiscountDisabled = Object.keys(currentSelectedItems).length === 0;
   return (
     <Fragment>
       <Header>
         <SelectBox kind="Item" />
-        <SelectBox kind="Discount" />
+        <SelectBox kind="Discount" isClickDisabled={isDiscountDisabled} />
       </Header>
       <Section>
-        {currentSelectedItems && <Options
-          kind="Item"
-          options={currentSelectedItems}
-          currency_code={currentCurrencyCode}
-        />}
-        {currentSelectedDiscounts && <Options
-          kind="Discount"
-          options={currentSelectedDiscounts}
-          currency_code={currentCurrencyCode}
-        />}
+        {currentSelectedItems && (
+          <Options
+            kind="Item"
+            options={currentSelectedItems}
+            currency_code={currentCurrencyCode}
+          />
+        )}
+        {currentSelectedDiscounts && (
+          <Options
+            kind="Discount"
+            options={currentSelectedDiscounts}
+            currency_code={currentCurrencyCode}
+          />
+        )}
       </Section>
       <Footer>
         <FooterText>합계</FooterText>

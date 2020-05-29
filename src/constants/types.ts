@@ -1,5 +1,6 @@
 export interface SelectionProps {
   kind: string;
+  isClickDisabled?: boolean;
 }
 
 export interface TitleProps {
@@ -47,52 +48,70 @@ export interface NumberProps {
 export interface ModifyOptionProps {
   count: number;
   name: string;
+  id: string;
 }
 
 export interface ModalProps {
   isShow: boolean;
   name: string;
   count: number;
+  onClose: () => void;
+  id: string;
+}
+
+export interface CountProps {
+  handleClick: (ev: React.MouseEvent<HTMLElement>) => void;
+  currentCount: number;
+}
+
+export interface CurrentColorProps {
+  isActive: boolean;
 }
 
 // [Redux] - item
-export const SELECTED_ITEMS = 'SELECTED_ITEMS';
-export const CURRENCY_CODE = 'CURRENCY_CODE';
-export const ITEM_COUNT = 'ITME_COUNT';
+export const UPDATE_SELECTED_ITEMS = 'UPDATE_SELECTED_ITEMS';
+export const UPDATE_CURRENCY_CODE = 'UPDATE_CURRENCY_CODE';
+export const UPDATE_ITEM_COUNT = 'ITEM_COUNT';
+export const DELETE_ITEM = 'DELETE_ITEM';
 
 export interface ItemsState {
   selectedItems: ItemProps;
   currencyCode: string;
 }
 
-interface SelectedItems {
-  type: typeof SELECTED_ITEMS,
+interface UpdateSelectedItems {
+  type: typeof UPDATE_SELECTED_ITEMS,
   items: ItemProps,
 }
 
-interface UpdatedCurrencyCode {
-  type: typeof CURRENCY_CODE,
+interface UpdateCurrencyCode {
+  type: typeof UPDATE_CURRENCY_CODE,
   currencyCode: string;
 }
 
 interface UpdateItemCount {
-  type: typeof ITEM_COUNT,
+  type: typeof UPDATE_ITEM_COUNT,
   id: string;
   count: number;
 }
 
-export type ItemsActionTypes = SelectedItems | UpdatedCurrencyCode | UpdateItemCount;
+interface DeleteItem {
+  type: typeof DELETE_ITEM,
+  id: string;
+}
+
+export type ItemsActionTypes = UpdateSelectedItems | UpdateCurrencyCode | UpdateItemCount | DeleteItem;
 
 // [Redux] - discount
-export const SELECTED_DISCOUNTS = 'SELECTED_DISCOUNTS';
+export const UPDATE_SELECTED_DISCOUNTS = 'UPDATE_SELECTED_DISCOUNTS';
 
 export interface DiscountsState {
   selectedDiscounts: DiscountProps;
 }
 
-interface SelectedDiscounts {
-  type: typeof SELECTED_DISCOUNTS,
+interface UpdateSelectedDiscounts {
+  type: typeof UPDATE_SELECTED_DISCOUNTS,
   discounts: DiscountProps,
 }
 
-export type DiscountsActionTypes = SelectedDiscounts;
+export type DiscountsActionTypes = UpdateSelectedDiscounts;

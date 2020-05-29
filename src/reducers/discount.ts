@@ -1,5 +1,5 @@
 import {
-  SELECTED_DISCOUNTS,
+  UPDATE_SELECTED_DISCOUNTS,
   DiscountsActionTypes,
   DiscountsState,
 } from '../constants/types';
@@ -10,7 +10,7 @@ const initialState: DiscountsState = {
 
 export function discount(state = initialState, action: DiscountsActionTypes) {
   switch(action.type) {
-    case SELECTED_DISCOUNTS:
+    case UPDATE_SELECTED_DISCOUNTS:
       return {
         ...state,
         selectedDiscounts: action.discounts,

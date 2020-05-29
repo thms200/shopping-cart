@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Options from './Options';
 import Count from './Count';
 import { RootState } from '../reducers';
+import { updateItemCount, deleteItem } from '../actions';
 import { ModalProps, ItemProps } from '../constants/types';
 
 const Wrapper = styled('div')`
@@ -53,9 +54,12 @@ const Complete = styled('div')`
   text-align: center;
 `;
 
-export default function Modal({ isShow, name, count }: ModalProps) {
+export default function Modal({ isShow, name, count, onClose, id }: ModalProps) {
+  const dispatch = useDispatch();
   const items = useSelector((state: RootState) => state.item.selectedItems);
   const [selectedItem, setSelectedItem] = useState<ItemProps>({});
+  const [updatedCount, setUpdateCount] = useState<number>(0);
+
   if (!isShow) {
     return null;
   }
@@ -65,6 +69,22 @@ export default function Modal({ isShow, name, count }: ModalProps) {
     const newSelectedItem: ItemProps = {};
     newSelectedItem[id as string] = currentSelectedItem;
     setSelectedItem(newSelectedItem);
+  };
+
+  const updateCount = (ev: React.MouseEvent<HTMLElement>) => {
+    setUpdateCount(Number(ev.currentTarget.innerText));
+  };
+
+  const completeProcess = () => {
+    dispatch(updateItemCount(id, updatedCount));
+    onClose();
+  };
+
+  const deleteOption = () => {
+    count
+      ? dispatch(deleteItem(id))
+      : dispatch(deleteItem(id));
+    onClose();
   };
 
   return (
@@ -78,11 +98,11 @@ export default function Modal({ isShow, name, count }: ModalProps) {
           selectedOptions={selectedItem}
           handleClick={handleClick}
         />}
-        {count && <Count />}
+        {count && <Count handleClick={updateCount} currentCount={updatedCount}/>}
       </Section>
       <Footer>
-        <Delete>삭제</Delete>
-        <Complete>완료</Complete>
+        <Delete onClick={deleteOption}>삭제</Delete>
+        <Complete onClick={completeProcess}>완료</Complete>
       </Footer>
     </Wrapper>
   );

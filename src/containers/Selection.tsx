@@ -101,10 +101,10 @@ export default function Selection({ kind }: SelectionProps) {
 
   return (
     <Fragment>
-      <Title text={kind}/>
+      <Title text={kind} />
       {isLoading && <Loading><div>Loading..</div></Loading>}
-      <Section>
-        {!isLoading && isItemPage &&
+      {!isLoading && isItemPage && (
+        <Section>
           <Options
             kind={kind}
             options={informations.items}
@@ -112,8 +112,10 @@ export default function Selection({ kind }: SelectionProps) {
             handleClick={selectOption}
             currency_code={informations.currency_code}
           />
-        }
-        {!isLoading && !isItemPage &&
+        </Section>
+      )}
+      {!isLoading && !isItemPage && (
+        <Section>
           <Options
             kind={kind}
             options={informations.discounts}
@@ -121,8 +123,8 @@ export default function Selection({ kind }: SelectionProps) {
             handleClick={selectOption}
             currency_code={informations.currency_code}
           />
-        }
-      </Section>
+        </Section>
+      )}
       <Footer>
         <FooterInformation>{isItemPage ? FOOTER_TEXT.ITEM : FOOTER_TEXT.DISCOUNT}</FooterInformation>
         <Complete to="./" onClick={completeSelection}>완료</Complete>

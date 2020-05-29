@@ -1,8 +1,9 @@
 import {
   ItemProps,
-  SELECTED_ITEMS,
-  CURRENCY_CODE,
-  ITEM_COUNT,
+  UPDATE_SELECTED_ITEMS,
+  UPDATE_CURRENCY_CODE,
+  UPDATE_ITEM_COUNT,
+  DELETE_ITEM,
   ItemsActionTypes,
   ItemsState,
 } from '../constants/types';
@@ -18,22 +19,33 @@ const updateCount = (selectedItems: ItemProps, id: string, count: number) => {
   return copySelectedItems;
 };
 
+const deleteItem = (selectedItems: ItemProps, id: string, ) => {
+  const copySelectedItems = { ...selectedItems };
+  delete copySelectedItems[id];
+  return copySelectedItems;
+};
+
 export function item(state = initialState, action: ItemsActionTypes) {
   switch(action.type) {
-    case SELECTED_ITEMS:
+    case UPDATE_SELECTED_ITEMS:
       return {
         ...state,
         selectedItems: action.items,
       };
-    case CURRENCY_CODE:
+    case UPDATE_CURRENCY_CODE:
       return {
         ...state,
         currencyCode: action.currencyCode,
       };
-    case ITEM_COUNT:
+    case UPDATE_ITEM_COUNT:
       return {
         ...state,
-        seleselectedItems: updateCount(state.selectedItems, action.id, action.count),
+        selectedItems: updateCount(state.selectedItems, action.id, action.count),
+      };
+    case DELETE_ITEM:
+      return {
+        ...state,
+        selectedItems: deleteItem(state.selectedItems, action.id),
       };
     default:
       return state;
