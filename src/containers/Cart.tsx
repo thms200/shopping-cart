@@ -4,7 +4,11 @@ import { RootState } from '../reducers';
 import styled from 'styled-components';
 import SelectBox from '../components/SelectBox';
 import Options from '../components/Options';
+<<<<<<< HEAD
 import { sumItemPrice, sumDiscountPrice, makeMoneyUnit } from '../utils';
+=======
+import { sumPrice } from '../utils';
+>>>>>>> 8b55829e5422c2efd043cb409d5089675d9d3547
 
 const Header = styled('header')`
   display: flex;
