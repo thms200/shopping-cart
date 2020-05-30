@@ -5,7 +5,7 @@ import SelectedOption from './SelectedOption';
 import ModifyOption from './ModifyOption';
 import { OptionProps } from '../constants/types';
 
-const OptionWrapper = styled('div')`
+export const OptionWrapper = styled('div')`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -18,7 +18,7 @@ const Ul = styled('ul')`
   list-style: none;
 `;
 
-const NameLi = styled('li')`
+export const NameLi = styled('li')`
   color: black;
 `;
 
