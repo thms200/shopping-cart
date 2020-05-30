@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { makeMoneyUnit, makeDiscountPrice } from '../utils';
+import { makeMoneyUnit, makeDiscountValue } from '../utils';
 import { NumberProps, SelectionProps } from '../constants/types';
 
 const NumberLi = styled('li')<SelectionProps>`
@@ -8,12 +8,12 @@ const NumberLi = styled('li')<SelectionProps>`
   color: ${({ kind }) => (kind === 'Item') ? '#95989D' : '#EC78A4'};
 `;
 
-export default function Number({ kind, currency_code, price, rate, itemsPrice, itemList, itemId }: NumberProps) {
+export default function Number({ kind, currency_code, price, discountRate, totalItemPrice, itemList, itemId }: NumberProps) {
   return (
     <NumberLi kind={kind}>
       {kind === 'Item'
         ? makeMoneyUnit(price!, currency_code)
-        : makeDiscountPrice(rate!, itemsPrice!, currency_code, itemList!, itemId)
+        : makeDiscountValue(discountRate!, totalItemPrice!, currency_code, itemList!, itemId)
       }
     </NumberLi>
   );

@@ -4,7 +4,7 @@ import { RootState } from '../reducers';
 import styled from 'styled-components';
 import SelectBox from '../components/SelectBox';
 import Options from '../components/Options';
-import { sumItemPrice, sumDiscountPrice, makeMoneyUnit } from '../utils';
+import { makeTotalItemPrice, makeTotalDiscountPrice, makeMoneyUnit } from '../utils';
 
 const Header = styled('header')`
   display: flex;
@@ -38,15 +38,15 @@ export default function Cart() {
   const currentSelectedItems = useSelector((state: RootState) => state.item.selectedItems);
   const currentCurrencyCode = useSelector((state: RootState) => state.item.currencyCode);
   const currentSelectedDiscounts = useSelector((state: RootState) => state.discount.selectedDiscounts);
-  const [total, setTotal] = useState<string>('0원');
-  const [itemsPrice, setItemsPrice] = useState<number>(0);
+  const [finalPrice, setfinalPrice] = useState<string>('0원');
+  const [totalItemPrice, setTotalItemPrice] = useState<number>(0);
   const isDiscountDisabled = Object.keys(currentSelectedItems).length === 0;
   useEffect(() => {
-    const caculatedItemsPrice = sumItemPrice(currentSelectedItems);
-    setItemsPrice(caculatedItemsPrice);
-    const discountsPrice = sumDiscountPrice(caculatedItemsPrice, currentSelectedDiscounts, currentSelectedItems);
-    const caculatedTotal = makeMoneyUnit(caculatedItemsPrice - discountsPrice, currentCurrencyCode);
-    setTotal(caculatedTotal);
+    const newTotalItemPrice = makeTotalItemPrice(currentSelectedItems);
+    setTotalItemPrice(newTotalItemPrice);
+    const newTotalDiscountPrice = makeTotalDiscountPrice(newTotalItemPrice, currentSelectedDiscounts, currentSelectedItems);
+    const newFinalPrice = makeMoneyUnit(newTotalItemPrice - newTotalDiscountPrice, currentCurrencyCode);
+    setfinalPrice(newFinalPrice);
   }, [currentSelectedItems, currentSelectedDiscounts, currentCurrencyCode]);
 
   return (
@@ -68,14 +68,14 @@ export default function Cart() {
             kind="Discount"
             options={currentSelectedDiscounts}
             currency_code={currentCurrencyCode}
-            itemsPrice={itemsPrice}
+            totalItemPrice={totalItemPrice}
             itemList={currentSelectedItems}
           />
         )}
       </Section>
       <Footer>
         <FooterText>합계</FooterText>
-        <Sum>{total}</Sum>
+        <Sum>{finalPrice}</Sum>
       </Footer>
     </Fragment>
   );

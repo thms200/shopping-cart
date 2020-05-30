@@ -26,30 +26,30 @@ export const makeMoneyUnit = (price: number, unit: string) => {
   }
 };
 
-export const sumItemPrice = (selectedItems: ItemProps) => {
+export const makeTotalItemPrice = (selectedItems: ItemProps) => {
   return Object.values(selectedItems).reduce((sum, item) => {
     sum = sum + item.count * item.price;
     return sum;
   }, 0);
 };
 
-export const calculateDiscountPrice = (itemList: ItemProps, item: string, rate: number, itemsPrice: number) => {
+export const calculateDiscountPrice = (itemList: ItemProps, item: string, rate: number, totalItemPrice: number) => {
   const result = item && itemList[item]
     ? Math.round((itemList[item!].price * itemList[item!].count) * rate)
-    : Math.round(itemsPrice * rate);
+    : Math.round(totalItemPrice * rate);
   return result;
 };
 
-export const sumDiscountPrice = (itemsPrice: number, currentDiscounts: DiscountProps, itemList: ItemProps) => {
+export const makeTotalDiscountPrice = (totalItemPrice: number, currentDiscounts: DiscountProps, itemList: ItemProps) => {
   return Object.values(currentDiscounts).reduce((sum, discount) => {
     const { item, rate } = discount;
-    sum = sum + calculateDiscountPrice(itemList, item!, rate, itemsPrice);
+    sum = sum + calculateDiscountPrice(itemList, item!, rate, totalItemPrice);
     return sum;
   }, 0);
 };
 
-export const makeDiscountPrice = (rate: number, itemsPrice: number, unit: string, itemList: ItemProps, item: string) => {
-  const price = calculateDiscountPrice(itemList, item!, rate, itemsPrice);
+export const makeDiscountValue = (rate: number, totalItemPrice: number, unit: string, itemList: ItemProps, item: string) => {
+  const price = calculateDiscountPrice(itemList, item!, rate, totalItemPrice);
   const percentage = `${(rate! * 100).toFixed()}%`;
   const result = price
     ? `-${makeMoneyUnit(price, unit)}(${percentage})`
