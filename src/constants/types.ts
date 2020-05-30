@@ -84,7 +84,7 @@ export interface CurrentColorProps {
 // [Redux] - item
 export const UPDATE_SELECTED_ITEMS = 'UPDATE_SELECTED_ITEMS';
 export const UPDATE_CURRENCY_CODE = 'UPDATE_CURRENCY_CODE';
-export const UPDATE_ITEM_COUNT = 'ITEM_COUNT';
+export const UPDATE_ITEM_COUNT = 'UPDATE_ITEM_COUNT';
 export const DELETE_ITEM = 'DELETE_ITEM';
 
 export interface ItemsState {
