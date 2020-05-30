@@ -69,3 +69,27 @@ export const makeCountArray = (max: number) => {
   }
   return result;
 };
+
+export const deleteDiscount = (selectedDiscounts: DiscountProps, id: string) => {
+  const copySelectedDiscounts = { ...selectedDiscounts };
+  delete copySelectedDiscounts[id];
+  return copySelectedDiscounts;
+};
+
+export const updateDiscountItem = (selectedDiscounts: DiscountProps, id: string, item: string) => {
+  const copySelectedDiscounts = { ...selectedDiscounts };
+  copySelectedDiscounts[id].item = item;
+  return copySelectedDiscounts;
+};
+
+export const updateCount = (selectedItems: ItemProps, id: string, count: number) => {
+  const copySelectedItems = { ...selectedItems };
+  copySelectedItems[id].count = count;
+  return copySelectedItems;
+};
+
+export const deleteItem = (selectedItems: ItemProps, id: string, ) => {
+  const copySelectedItems = { ...selectedItems };
+  delete copySelectedItems[id];
+  return copySelectedItems;
+};
