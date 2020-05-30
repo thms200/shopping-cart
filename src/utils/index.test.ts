@@ -123,8 +123,22 @@ describe('<Util Index>', () => {
     });
   });
 
+  describe('<function makeDiscountValue>', () => {
+    it('should be returend discount price if item is selected', () => {
+      expect(makeDiscountValue(0.1, 10000, 'KRW', mockItemOne, 'i_1')).toEqual('-3,500원(10%)');
+      expect(makeDiscountValue(0.2, 10000, 'KRW', mockItemOne, 'i_3')).toEqual('-6,000원(20%)');
+      expect(makeDiscountValue(0.07, 10000, 'KRW', mockItemOne, 'i_4')).toEqual('-7,000원(7%)');
+    });
+
+    it('should be returend discount rate if item and total item price is not selected', () => {
+      expect(makeDiscountValue(0.1, undefined, 'KRW', mockItemOne, undefined)).toEqual('10%');
+      expect(makeDiscountValue(0.2, undefined, 'KRW', mockItemOne, undefined)).toEqual('20%');
+      expect(makeDiscountValue(0.07, undefined, 'KRW', mockItemOne, undefined)).toEqual('7%');
+    });
+  });
+
   describe('<function makeCountArray>', () => {
-    it('should be returend count array accoring to givend max number', () => {
+    it('should be returend count array accoring to given max number', () => {
       expect(makeCountArray(10)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
       expect(makeCountArray(5)).toEqual([1, 2, 3, 4, 5]);
     });
