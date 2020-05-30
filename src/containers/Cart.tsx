@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../reducers';
 import styled from 'styled-components';
@@ -38,10 +38,16 @@ export default function Cart() {
   const currentSelectedItems = useSelector((state: RootState) => state.item.selectedItems);
   const currentCurrencyCode = useSelector((state: RootState) => state.item.currencyCode);
   const currentSelectedDiscounts = useSelector((state: RootState) => state.discount.selectedDiscounts);
+  const [total, setTotal] = useState<string>('0원');
+  const [itemsPrice, setItemsPrice] = useState<number>(0);
   const isDiscountDisabled = Object.keys(currentSelectedItems).length === 0;
-  const itemsPrice = sumItemPrice(currentSelectedItems);
-  const discountsPrice = sumDiscountPrice(itemsPrice, currentSelectedDiscounts, currentSelectedItems);
-  const total = makeMoneyUnit(itemsPrice - discountsPrice, currentCurrencyCode);
+  useEffect(() => {
+    const caculatedItemsPrice = sumItemPrice(currentSelectedItems);
+    setItemsPrice(caculatedItemsPrice);
+    const discountsPrice = sumDiscountPrice(caculatedItemsPrice, currentSelectedDiscounts, currentSelectedItems);
+    const caculatedTotal = makeMoneyUnit(caculatedItemsPrice - discountsPrice, currentCurrencyCode);
+    setTotal(caculatedTotal);
+  }, [currentSelectedItems, currentSelectedDiscounts, currentCurrencyCode]);
 
   return (
     <Fragment>
