@@ -1,16 +1,21 @@
 import { MONEY_UNIT } from '../constants';
 import { ItemProps, DiscountProps } from '../constants/types';
 
-const addComma = (price: string) => {
+export const addComma = (price: string) => {
+  const split = price.split('.');
+  const int = split[0];
+  const decimal = split[1];
   const result = [];
   let count = 0;
-  for (let i = price.length - 1; i >= 0; i--) {
+  for (let i = int.length - 1; i >= 0; i--) {
     count++;
     ((count % 3 === 0) && i !== 0)
       ? result.unshift(`,${price[i]}`)
       : result.unshift(price[i]);
   }
-  return result.join('');
+  return decimal
+    ? result.join('') + '.' + decimal
+    : result.join('');
 };
 
 export const makeMoneyUnit = (price: number, unit: string) => {
