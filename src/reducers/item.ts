@@ -1,5 +1,4 @@
 import {
-  ItemProps,
   UPDATE_SELECTED_ITEMS,
   UPDATE_CURRENCY_CODE,
   UPDATE_ITEM_COUNT,
@@ -7,22 +6,11 @@ import {
   ItemsActionTypes,
   ItemsState,
 } from '../constants/types';
+import { updateCount, deleteItem } from '../utils';
 
 const initialState: ItemsState = {
   selectedItems: {},
   currencyCode: '',
-};
-
-const updateCount = (selectedItems: ItemProps, id: string, count: number) => {
-  const copySelectedItems = { ...selectedItems };
-  copySelectedItems[id].count = count;
-  return copySelectedItems;
-};
-
-const deleteItem = (selectedItems: ItemProps, id: string, ) => {
-  const copySelectedItems = { ...selectedItems };
-  delete copySelectedItems[id];
-  return copySelectedItems;
 };
 
 export function item(state = initialState, action: ItemsActionTypes) {

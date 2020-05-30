@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../reducers';
 import styled from 'styled-components';
 import SelectBox from '../components/SelectBox';
 import Options from '../components/Options';
-import { sumItemPrice, sumDiscountPrice, makeMoneyUnit } from '../utils';
+import { makeTotalItemPrice, makeTotalDiscountPrice, makeMoneyUnit } from '../utils';
 
 const Header = styled('header')`
   display: flex;
@@ -38,10 +38,16 @@ export default function Cart() {
   const currentSelectedItems = useSelector((state: RootState) => state.item.selectedItems);
   const currentCurrencyCode = useSelector((state: RootState) => state.item.currencyCode);
   const currentSelectedDiscounts = useSelector((state: RootState) => state.discount.selectedDiscounts);
+  const [finalPrice, setfinalPrice] = useState<string>('0원');
+  const [totalItemPrice, setTotalItemPrice] = useState<number>(0);
   const isDiscountDisabled = Object.keys(currentSelectedItems).length === 0;
-  const itemsPrice = sumItemPrice(currentSelectedItems);
-  const discountsPrice = sumDiscountPrice(itemsPrice, currentSelectedDiscounts, currentSelectedItems);
-  const total = makeMoneyUnit(itemsPrice - discountsPrice, currentCurrencyCode);
+  useEffect(() => {
+    const newTotalItemPrice = makeTotalItemPrice(currentSelectedItems);
+    setTotalItemPrice(newTotalItemPrice);
+    const newTotalDiscountPrice = makeTotalDiscountPrice(newTotalItemPrice, currentSelectedDiscounts, currentSelectedItems);
+    const newFinalPrice = makeMoneyUnit(newTotalItemPrice - newTotalDiscountPrice, currentCurrencyCode);
+    setfinalPrice(newFinalPrice);
+  }, [currentSelectedItems, currentSelectedDiscounts, currentCurrencyCode]);
 
   return (
     <Fragment>
@@ -62,14 +68,14 @@ export default function Cart() {
             kind="Discount"
             options={currentSelectedDiscounts}
             currency_code={currentCurrencyCode}
-            itemsPrice={itemsPrice}
+            totalItemPrice={totalItemPrice}
             itemList={currentSelectedItems}
           />
         )}
       </Section>
       <Footer>
         <FooterText>합계</FooterText>
-        <Sum>{total}</Sum>
+        <Sum>{finalPrice}</Sum>
       </Footer>
     </Fragment>
   );

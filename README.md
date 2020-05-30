@@ -6,6 +6,10 @@
 * [Process](https://github.com/thms200/shopping-cart#Process)
 * [Challenge](https://github.com/thms200/shopping-cart#Challenge)
 
+<div>
+<img style="display : block;" src="https://user-images.githubusercontent.com/48754671/83324932-6967ca00-a2a3-11ea-84ef-f8ef9bcdd61c.gif" />
+</div>
+
 ## Tech Stack
 - ES2015+
 - TypeScript

@@ -44,7 +44,7 @@ export interface OptionProps {
   selectedOptions?: ItemOrDiscount;
   handleClick?: (ev: React.MouseEvent<HTMLElement>) => void;
   currency_code: string;
-  itemsPrice?: number;
+  totalItemPrice?: number;
   itemList?: ItemProps;
 }
 
@@ -52,10 +52,10 @@ export interface NumberProps {
   kind: string;
   currency_code: string;
   price?: number;
-  rate?: number;
-  itemsPrice?: number;
+  discountRate?: number;
+  totalItemPrice?: number;
   itemList?: ItemProps;
-  itemId: string;
+  itemId?: string;
 }
 
 export interface ModifyOptionProps {
@@ -84,7 +84,7 @@ export interface CurrentColorProps {
 // [Redux] - item
 export const UPDATE_SELECTED_ITEMS = 'UPDATE_SELECTED_ITEMS';
 export const UPDATE_CURRENCY_CODE = 'UPDATE_CURRENCY_CODE';
-export const UPDATE_ITEM_COUNT = 'ITEM_COUNT';
+export const UPDATE_ITEM_COUNT = 'UPDATE_ITEM_COUNT';
 export const DELETE_ITEM = 'DELETE_ITEM';
 
 export interface ItemsState {

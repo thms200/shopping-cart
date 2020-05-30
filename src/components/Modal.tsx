@@ -58,7 +58,7 @@ export default function Modal({ isShow, name, count, onClose, id }: ModalProps) 
   const dispatch = useDispatch();
   const items = useSelector((state: RootState) => state.item.selectedItems);
   const [selectedItem, setSelectedItem] = useState<ItemProps>({});
-  const [updatedCount, setUpdateCount] = useState<number>(0);
+  const [updatedCount, setUpdateCount] = useState<number>(1);
   const completeText = count ? '완료' : '확인';
 
   if (!isShow) {

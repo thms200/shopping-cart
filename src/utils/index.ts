@@ -1,16 +1,21 @@
 import { MONEY_UNIT } from '../constants';
 import { ItemProps, DiscountProps } from '../constants/types';
 
-const addComma = (price: string) => {
+export const addComma = (price: string) => {
+  const split = price.split('.');
+  const int = split[0];
+  const decimal = split[1];
   const result = [];
   let count = 0;
-  for (let i = price.length - 1; i >= 0; i--) {
+  for (let i = int.length - 1; i >= 0; i--) {
     count++;
     ((count % 3 === 0) && i !== 0)
       ? result.unshift(`,${price[i]}`)
       : result.unshift(price[i]);
   }
-  return result.join('');
+  return decimal
+    ? result.join('') + '.' + decimal
+    : result.join('');
 };
 
 export const makeMoneyUnit = (price: number, unit: string) => {
@@ -26,31 +31,33 @@ export const makeMoneyUnit = (price: number, unit: string) => {
   }
 };
 
-export const sumItemPrice = (selectedItems: ItemProps) => {
+export const makeTotalItemPrice = (selectedItems: ItemProps) => {
   return Object.values(selectedItems).reduce((sum, item) => {
     sum = sum + item.count * item.price;
     return sum;
   }, 0);
 };
 
-export const sumDiscountPrice = (itemsPrice: number, currentDiscounts: DiscountProps, itemList: ItemProps) => {
+export const calculateDiscountPrice = (itemList: ItemProps, item: string, rate: number, totalItemPrice: number) => {
+  const result = item && itemList[item]
+    ? Math.round((itemList[item!].price * itemList[item!].count) * rate)
+    : Math.round(totalItemPrice * rate);
+  return result;
+};
+
+export const makeTotalDiscountPrice = (totalItemPrice: number, currentDiscounts: DiscountProps, itemList: ItemProps) => {
   return Object.values(currentDiscounts).reduce((sum, discount) => {
     const { item, rate } = discount;
-    sum = item
-      ? sum + Math.round((itemList[item!].price * itemList[item!].count) * rate)
-      : sum + Math.round(itemsPrice * rate);
+    sum = sum + calculateDiscountPrice(itemList, item!, rate, totalItemPrice);
     return sum;
   }, 0);
 };
 
-export const makeDiscountPrice = (rate: number, totalPrice: number, unit: string, itemList: ItemProps, itemID: string) => {
-  const sum = itemID && itemList[itemID]
-    ? itemList[itemID].price * itemList[itemID].count
-    : totalPrice;
-  const caculatedPrice = Math.round(sum * rate);
+export const makeDiscountValue = (rate: number, totalItemPrice: number, unit: string, itemList: ItemProps, item: string) => {
+  const price = calculateDiscountPrice(itemList, item!, rate, totalItemPrice);
   const percentage = `${(rate! * 100).toFixed()}%`;
-  const result = caculatedPrice
-    ? `-${makeMoneyUnit(caculatedPrice, unit)}(${percentage})`
+  const result = price
+    ? `-${makeMoneyUnit(price, unit)}(${percentage})`
     : percentage;
   return result;
 };
@@ -61,4 +68,28 @@ export const makeCountArray = (max: number) => {
     result.push(i);
   }
   return result;
+};
+
+export const deleteDiscount = (selectedDiscounts: DiscountProps, id: string) => {
+  const copySelectedDiscounts = { ...selectedDiscounts };
+  delete copySelectedDiscounts[id];
+  return copySelectedDiscounts;
+};
+
+export const updateDiscountItem = (selectedDiscounts: DiscountProps, id: string, item: string) => {
+  const copySelectedDiscounts = { ...selectedDiscounts };
+  copySelectedDiscounts[id].item = item;
+  return copySelectedDiscounts;
+};
+
+export const updateCount = (selectedItems: ItemProps, id: string, count: number) => {
+  const copySelectedItems = { ...selectedItems };
+  copySelectedItems[id].count = count;
+  return copySelectedItems;
+};
+
+export const deleteItem = (selectedItems: ItemProps, id: string, ) => {
+  const copySelectedItems = { ...selectedItems };
+  delete copySelectedItems[id];
+  return copySelectedItems;
 };

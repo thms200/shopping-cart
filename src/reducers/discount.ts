@@ -1,26 +1,14 @@
 import {
-  DiscountProps,
   UPDATE_SELECTED_DISCOUNTS,
   DELETE_DISCOUNT,
   UPDATE_DISCOUNT_ITEM,
   DiscountsActionTypes,
   DiscountsState,
 } from '../constants/types';
+import { deleteDiscount, updateDiscountItem } from '../utils';
 
 const initialState: DiscountsState = {
   selectedDiscounts: {}
-};
-
-const deleteDiscount = (selectedDiscounts: DiscountProps, id: string) => {
-  const copySelectedDiscounts = { ...selectedDiscounts };
-  delete copySelectedDiscounts[id];
-  return copySelectedDiscounts;
-};
-
-const updateDiscountItem = (selectedDiscounts: DiscountProps, id: string, item: string) => {
-  const copySelectedDiscounts = { ...selectedDiscounts };
-  copySelectedDiscounts[id].item = item;
-  return copySelectedDiscounts;
 };
 
 export function discount(state = initialState, action: DiscountsActionTypes) {
