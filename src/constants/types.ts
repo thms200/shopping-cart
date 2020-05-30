@@ -55,7 +55,7 @@ export interface NumberProps {
   discountRate?: number;
   totalItemPrice?: number;
   itemList?: ItemProps;
-  itemId: string;
+  itemId?: string;
 }
 
 export interface ModifyOptionProps {
