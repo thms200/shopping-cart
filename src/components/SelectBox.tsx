@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { IoIosAddCircle } from 'react-icons/io';
 import { SelectionProps } from '../constants/types';
 
-const BoxLink = styled(Link)<SelectionProps>`
+export const BoxLink = styled(Link)<SelectionProps>`
   display: flex;
   align-items: center;
   justify-content: center;
