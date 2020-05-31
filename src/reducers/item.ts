@@ -28,7 +28,7 @@ export function item(state = initialState, action: ItemsActionTypes) {
     case UPDATE_ITEM_COUNT:
       return {
         ...state,
-        selectedItems: updateCount(state.selectedItems, action.id, action.count),
+        selectedItems: updateCount(state.selectedItems, action),
       };
     case DELETE_ITEM:
       return {

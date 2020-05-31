@@ -139,8 +139,8 @@ describe('<Util Index>', () => {
 
   describe('<function makeCountArray>', () => {
     it('should be returend count array accoring to given max number', () => {
-      expect(makeCountArray(10)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-      expect(makeCountArray(5)).toEqual([1, 2, 3, 4, 5]);
+      expect(makeCountArray(10)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+      expect(makeCountArray(5)).toEqual([0, 1, 2, 3, 4, 5]);
     });
   });
 });
