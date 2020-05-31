@@ -4,7 +4,7 @@ import { RootState } from '../reducers';
 import styled from 'styled-components';
 import Options from './Options';
 import Count from './Count';
-import { updateItemCount, deleteItem, deleteDiscount, updateDiscountItem } from '../actions';
+import { updateItemCount, deleteItem, deleteDiscount, updateDiscountItem, deleteDiscountItem } from '../actions';
 import { ModalProps, ItemProps } from '../constants/types';
 import { toggleOptionList } from '../utils';
 
@@ -61,9 +61,8 @@ export default function Modal({ isShow, name, count, onClose, id, price }: Modal
   const [selectedItem, setSelectedItem] = useState<ItemProps>({});
   const [updatedCount, setUpdateCount] = useState<number>(1);
   const completeText = count ? '완료' : '확인';
-  if (!isShow) {
-    return null;
-  }
+  const isNumber = typeof count === 'number';
+  if (!isShow) return null;
 
   const selectItem = (ev: React.MouseEvent<HTMLElement>) => {
     const { id } = ev.currentTarget.dataset;
@@ -78,16 +77,19 @@ export default function Modal({ isShow, name, count, onClose, id, price }: Modal
 
   const completeProcess = () => {
     const discountItem = Object.keys(selectedItem);
-    count
+    isNumber
       ? dispatch(updateItemCount(id, updatedCount, name, price))
       : dispatch(updateDiscountItem(id, discountItem));
     onClose();
   };
 
   const deleteOption = () => {
-    count
-      ? dispatch(deleteItem(id))
-      : dispatch(deleteDiscount(id));
+    if(isNumber) {
+      dispatch(deleteItem(id));
+      dispatch(deleteDiscountItem(id));
+    } else {
+      dispatch(deleteDiscount(id));
+    }
     onClose();
   };
 
@@ -95,14 +97,14 @@ export default function Modal({ isShow, name, count, onClose, id, price }: Modal
     <Wrapper>
       <Header>{name}</Header>
       <Section>
-        {!count && <Options
+        {!isNumber && <Options
           kind="Item"
           options={items}
           currency_code={'KRW'}
           selectedOptions={selectedItem}
           handleClick={selectItem}
         />}
-        {count && <Count handleClick={updateCount} currentCount={updatedCount}/>}
+        {isNumber && <Count handleClick={updateCount} currentCount={updatedCount}/>}
       </Section>
       <Footer>
         <Delete onClick={deleteOption}>삭제</Delete>

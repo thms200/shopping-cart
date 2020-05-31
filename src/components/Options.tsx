@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { RootState } from '../reducers';
 import Number from './Number';
 import SelectedOption from './SelectedOption';
 import ModifyOption from './ModifyOption';
@@ -23,6 +25,7 @@ export const NameLi = styled('li')`
 `;
 
 export default function Options({ kind, options, selectedOptions, handleClick, currency_code, totalItemPrice, itemList }: OptionProps) {
+  const currentSelectedItems = useSelector((state: RootState) => state.item.selectedItems);
   const onClick = (ev: React.MouseEvent<HTMLElement>) => {
     if(handleClick) handleClick!(ev);
   };
@@ -30,7 +33,8 @@ export default function Options({ kind, options, selectedOptions, handleClick, c
     <Fragment>
       {Object.values(options).map((option, index) => {
         const id = Object.keys(options)[index];
-        const { name, originalPrice } = option;
+        const { name, originalPrice, count } = option;
+        const displayCount = currentSelectedItems[id] ? currentSelectedItems[id].count : count;
         return (
           <OptionWrapper key={id} data-id={id} onClick={onClick}>
             <Ul>
@@ -46,7 +50,7 @@ export default function Options({ kind, options, selectedOptions, handleClick, c
               />
             </Ul>
             {selectedOptions && selectedOptions![id] && <SelectedOption />}
-            {!selectedOptions && <ModifyOption count={option.count} name={option.name} id={id} price={option.price} />}
+            {!selectedOptions && <ModifyOption count={displayCount} name={option.name} id={id} price={option.price} originalPrice={originalPrice} />}
           </OptionWrapper>
         );
       })}

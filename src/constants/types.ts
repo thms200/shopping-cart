@@ -64,6 +64,7 @@ export interface ModifyOptionProps {
   name: string;
   id: string;
   price: number;
+  originalPrice?: number;
 }
 
 export interface ModalProps {
@@ -131,6 +132,7 @@ export type ItemsActionTypes = UpdateSelectedItems | UpdateCurrencyCode | Update
 export const UPDATE_SELECTED_DISCOUNTS = 'UPDATE_SELECTED_DISCOUNTS';
 export const DELETE_DISCOUNT = 'DELETE_DISCOUNT';
 export const UPDATE_DISCOUNT_ITEM = 'UPDATE_DISCOUNT_ITEM';
+export const DELETE_DISCOUNT_ITEM = 'DELETE_DISCOUNT_ITEM';
 
 export interface DiscountsState {
   selectedDiscounts: DiscountProps;
@@ -152,4 +154,9 @@ interface UpdateDiscountItem {
   selectedItems: string[];
 }
 
-export type DiscountsActionTypes = UpdateSelectedDiscounts | DeleteDiscount | UpdateDiscountItem;
+interface DeleteDiscountItem {
+  type: typeof DELETE_DISCOUNT_ITEM,
+  deletedId: string
+}
+
+export type DiscountsActionTypes = UpdateSelectedDiscounts | DeleteDiscount | UpdateDiscountItem | DeleteDiscountItem;

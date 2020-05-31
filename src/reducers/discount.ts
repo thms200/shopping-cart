@@ -2,10 +2,11 @@ import {
   UPDATE_SELECTED_DISCOUNTS,
   DELETE_DISCOUNT,
   UPDATE_DISCOUNT_ITEM,
+  DELETE_DISCOUNT_ITEM,
   DiscountsActionTypes,
   DiscountsState,
 } from '../constants/types';
-import { deleteDiscount, updateDiscountItem } from '../utils';
+import { deleteDiscount, updateDiscountItem, deleteDiscountItem } from '../utils';
 
 const initialState: DiscountsState = {
   selectedDiscounts: {}
@@ -27,6 +28,11 @@ export function discount(state = initialState, action: DiscountsActionTypes) {
       return {
         ...state,
         selectedDiscounts: updateDiscountItem(state.selectedDiscounts, action.id, action.selectedItems),
+      };
+    case DELETE_DISCOUNT_ITEM:
+      return {
+        ...state,
+        selectedDiscounts: deleteDiscountItem(state.selectedDiscounts, action.deletedId),
       };
     default:
       return state;
