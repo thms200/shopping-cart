@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../reducers';
+import styled from 'styled-components';
 import Options from './Options';
 import Count from './Count';
-import { RootState } from '../reducers';
 import { updateItemCount, deleteItem, deleteDiscount, updateDiscountItem } from '../actions';
 import { ModalProps, ItemProps } from '../constants/types';
+import { toggleOptionList } from '../utils';
 
 const Wrapper = styled('div')`
   position: fixed;
@@ -60,17 +61,15 @@ export default function Modal({ isShow, name, count, onClose, id }: ModalProps) 
   const [selectedItem, setSelectedItem] = useState<ItemProps>({});
   const [updatedCount, setUpdateCount] = useState<number>(1);
   const completeText = count ? '완료' : '확인';
-
   if (!isShow) {
     return null;
   }
 
   const selectItem = (ev: React.MouseEvent<HTMLElement>) => {
     const { id } = ev.currentTarget.dataset;
-    const selectedItem = items[id as string];
-    const newItem: ItemProps = {};
-    newItem[id as string] = selectedItem;
-    setSelectedItem(newItem);
+    const newItem = items[id as string];
+    const newItemList = toggleOptionList(selectedItem, newItem, id!);
+    setSelectedItem(newItemList as ItemProps);
   };
 
   const updateCount = (ev: React.MouseEvent<HTMLElement>) => {
@@ -78,7 +77,7 @@ export default function Modal({ isShow, name, count, onClose, id }: ModalProps) 
   };
 
   const completeProcess = () => {
-    const discountItem = Object.keys(selectedItem)[0];
+    const discountItem = Object.keys(selectedItem);
     count
       ? dispatch(updateItemCount(id, updatedCount))
       : dispatch(updateDiscountItem(id, discountItem));
