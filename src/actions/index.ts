@@ -8,6 +8,7 @@ import {
   DELETE_ITEM,
   DELETE_DISCOUNT,
   UPDATE_DISCOUNT_ITEM,
+  DELETE_DISCOUNT_ITEM,
   ItemsActionTypes,
   DiscountsActionTypes,
 } from '../constants/types';
@@ -26,11 +27,13 @@ export function updateCurrencyCode(currencyCode: string): ItemsActionTypes {
   };
 }
 
-export function updateItemCount(id: string, count: number): ItemsActionTypes {
+export function updateItemCount(id: string, count: number, name: string, price: number): ItemsActionTypes {
   return {
     type: UPDATE_ITEM_COUNT,
     id,
     count,
+    name,
+    price
   };
 }
 
@@ -60,5 +63,12 @@ export function updateDiscountItem(id: string, selectedItems: string[]): Discoun
     type: UPDATE_DISCOUNT_ITEM,
     id,
     selectedItems,
+  };
+}
+
+export function deleteDiscountItem(deletedId: string): DiscountsActionTypes {
+  return {
+    type: DELETE_DISCOUNT_ITEM,
+    deletedId,
   };
 }

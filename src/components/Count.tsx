@@ -17,7 +17,7 @@ export default function Count({ handleClick, currentCount }: CountProps) {
   return (
     <Fragment>
       {countArray.map((num, index) => {
-        const isActive = (index + 1) === currentCount;
+        const isActive = (index) === currentCount;
         return (
           <Number key={num} onClick={handleClick} isActive={isActive}>
             {num}
