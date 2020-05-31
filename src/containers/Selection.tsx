@@ -1,13 +1,14 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../reducers';
 import styled from 'styled-components';
 import Title from '../components/Title';
 import Options from '../components/Options';
+import { updateSelectedDiscounts, updateCurrencyCode } from '../actions';
+import { SelectionProps, InformationsProps, DiscountProps } from '../constants/types';
 import { fetchInformation } from '../utils/api';
-import { RootState } from '../reducers';
-import { updateSelectedItems, updateSelectedDiscounts, updateCurrencyCode } from '../actions';
-import { SelectionProps, InformationsProps, ItemProps, DiscountProps, ItemOrDiscount, TogglableOptions } from '../constants/types';
+import { toggleOptionList } from '../utils';
 import { FOOTER_TEXT } from '../constants';
 
 const Section = styled('section')`
@@ -54,20 +55,21 @@ const Loading = styled('div')`
 
 export default function Selection({ kind }: SelectionProps) {
   const dispatch = useDispatch();
-  const currentSelectedItems = useSelector((state: RootState) => state.item.selectedItems);
   const currentSelectedDiscounts = useSelector((state: RootState) => state.discount.selectedDiscounts);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [informations, setInformation] = useState<InformationsProps>({ items: {}, discounts: {}, currency_code: '' });
-  const [selectedItems, setSelectedItems] = useState<ItemProps>(currentSelectedItems);
   const [selectedDiscounts, setSelectedDiscounts] = useState<DiscountProps>(currentSelectedDiscounts);
   const isItemPage = kind === 'Item';
   const options = isItemPage ? informations.items : informations.discounts;
-  const selectedOptions = isItemPage ? selectedItems : selectedDiscounts;
 
   const getInformation = async() => {
     try {
       setIsLoading(true);
       const informations = await fetchInformation();
+      for (let key in informations.items) {
+        informations.items[key].count = 0;
+        informations.items[key].originalPrice = informations.items[key].price;
+      }
       setInformation(informations);
       setIsLoading(false);
     } catch(err) {
@@ -75,29 +77,17 @@ export default function Selection({ kind }: SelectionProps) {
     }
   };
 
-  const toggleOptionList = (currentOptionList: ItemOrDiscount, newOption: TogglableOptions, id: string) => {
-    const currentList = { ...currentOptionList };
-    currentList[id]
-      ? delete currentList[id]
-      : (currentList[id] as any) = newOption;
-    return currentList;
-  };
-
   const selectOption = (ev: React.MouseEvent<HTMLElement>) => {
     const { id } = ev.currentTarget.dataset;
     const selectedOption = options[id as string];
-    const newOptionList = toggleOptionList(selectedOptions, selectedOption, id!);
+    const newOptionList = toggleOptionList(selectedDiscounts, selectedOption, id!);
 
-    isItemPage
-      ? setSelectedItems(newOptionList as ItemProps)
-      : setSelectedDiscounts(newOptionList as DiscountProps);
+    if(!isItemPage) setSelectedDiscounts(newOptionList as DiscountProps);
   };
 
   const completeSelection = () => {
     dispatch(updateCurrencyCode(informations.currency_code));
-    isItemPage
-      ? dispatch(updateSelectedItems(selectedItems))
-      : dispatch(updateSelectedDiscounts(selectedDiscounts));
+    if (!isItemPage) dispatch(updateSelectedDiscounts(selectedDiscounts));
   };
 
   useEffect(() => {
@@ -113,7 +103,6 @@ export default function Selection({ kind }: SelectionProps) {
           <Options
             kind={kind}
             options={informations.items}
-            selectedOptions={selectedItems}
             handleClick={selectOption}
             currency_code={informations.currency_code}
           />

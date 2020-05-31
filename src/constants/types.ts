@@ -12,6 +12,7 @@ export interface ItemProps {
     name: string;
     price: number;
     count: number;
+    originalPrice?: number;
   };
 }
 
@@ -19,7 +20,7 @@ export interface DiscountProps {
   [key: string]: {
     name: string;
     rate: number;
-    item?: string;
+    selectedItems?: string[];
   };
 }
 
@@ -55,13 +56,15 @@ export interface NumberProps {
   discountRate?: number;
   totalItemPrice?: number;
   itemList?: ItemProps;
-  itemId?: string;
+  selectedItems?: string[];
 }
 
 export interface ModifyOptionProps {
   count: number;
   name: string;
   id: string;
+  price: number;
+  originalPrice?: number;
 }
 
 export interface ModalProps {
@@ -70,6 +73,7 @@ export interface ModalProps {
   count: number;
   onClose: () => void;
   id: string;
+  price: number;
 }
 
 export interface CountProps {
@@ -79,6 +83,13 @@ export interface CountProps {
 
 export interface CurrentColorProps {
   isActive: boolean;
+}
+
+export interface ItemCountUpdateParames {
+  id: string;
+  count: number;
+  name: string;
+  price: number;
 }
 
 // [Redux] - item
@@ -106,6 +117,8 @@ interface UpdateItemCount {
   type: typeof UPDATE_ITEM_COUNT,
   id: string;
   count: number;
+  name: string,
+  price: number;
 }
 
 interface DeleteItem {
@@ -119,6 +132,7 @@ export type ItemsActionTypes = UpdateSelectedItems | UpdateCurrencyCode | Update
 export const UPDATE_SELECTED_DISCOUNTS = 'UPDATE_SELECTED_DISCOUNTS';
 export const DELETE_DISCOUNT = 'DELETE_DISCOUNT';
 export const UPDATE_DISCOUNT_ITEM = 'UPDATE_DISCOUNT_ITEM';
+export const DELETE_DISCOUNT_ITEM = 'DELETE_DISCOUNT_ITEM';
 
 export interface DiscountsState {
   selectedDiscounts: DiscountProps;
@@ -136,8 +150,13 @@ interface DeleteDiscount {
 
 interface UpdateDiscountItem {
   type: typeof UPDATE_DISCOUNT_ITEM,
-  id: string,
-  selectedItem: string,
+  id: string
+  selectedItems: string[];
 }
 
-export type DiscountsActionTypes = UpdateSelectedDiscounts | DeleteDiscount | UpdateDiscountItem;
+interface DeleteDiscountItem {
+  type: typeof DELETE_DISCOUNT_ITEM,
+  deletedId: string
+}
+
+export type DiscountsActionTypes = UpdateSelectedDiscounts | DeleteDiscount | UpdateDiscountItem | DeleteDiscountItem;

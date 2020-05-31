@@ -46,6 +46,10 @@ const mockItem = {
   },
 };
 
+jest.mock('react-redux', () => ({
+  useSelector: jest.fn(() => mockItemList),
+}));
+
 describe('<Options>', () => {
   const options = shallow(
     <Options
