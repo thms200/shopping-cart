@@ -92,8 +92,10 @@ export const updateDiscountItem = (selectedDiscounts: DiscountProps, id: string,
 export const deleteDiscountItem = (selectedDiscounts: DiscountProps, deletedId: string) => {
   const copySelectedDiscounts = { ...selectedDiscounts };
   for (let key in copySelectedDiscounts) {
-    const newItemList = copySelectedDiscounts[key].selectedItems!.filter((item) => item !== deletedId);
-    copySelectedDiscounts[key].selectedItems = newItemList;
+    if(Array.isArray(copySelectedDiscounts[key].selectedItems!)){
+      const newItemList = copySelectedDiscounts[key].selectedItems!.filter((item) => item !== deletedId);
+      copySelectedDiscounts[key].selectedItems = newItemList;
+    }
   }
   return copySelectedDiscounts;
 };

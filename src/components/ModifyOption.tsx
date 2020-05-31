@@ -13,7 +13,7 @@ const Wrapper = styled('div')`
   background-color: #F7F7F7;
 `;
 
-export default function ModifyOption({ count, name, id, price, originalPrice }: ModifyOptionProps) {
+export default function ModifyOption({ count, name, id, price, originalPrice, isDeleteRendering }: ModifyOptionProps) {
   const [isShow, setIsShow] = useState<boolean>(false);
   const displayCount = originalPrice
     ? count
@@ -26,7 +26,7 @@ export default function ModifyOption({ count, name, id, price, originalPrice }: 
     <Wrapper>
       {displayCount}&nbsp;
       <BsChevronDown size={12}  onClick={onClick}/>
-      <Modal isShow={isShow} name={name} count={count} onClose={onClick} id={id} price={price} />
+      <Modal isShow={isShow} name={name} count={count} onClose={onClick} id={id} price={price} isDeleteRendering={isDeleteRendering} />
     </Wrapper>
   );
 }

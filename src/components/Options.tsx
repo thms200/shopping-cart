@@ -50,7 +50,7 @@ export default function Options({ kind, options, selectedOptions, handleClick, c
               />
             </Ul>
             {selectedOptions && selectedOptions![id] && <SelectedOption />}
-            {!selectedOptions && <ModifyOption count={displayCount} name={option.name} id={id} price={option.price} originalPrice={originalPrice} />}
+            {!selectedOptions && <ModifyOption count={displayCount} name={option.name} id={id} price={option.price} originalPrice={originalPrice} isDeleteRendering={!!currentSelectedItems[id]} />}
           </OptionWrapper>
         );
       })}
