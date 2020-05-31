@@ -55,10 +55,10 @@ export function deleteDiscount(id: string): DiscountsActionTypes {
   };
 }
 
-export function updateDiscountItem(id: string, selectedItem: string): DiscountsActionTypes {
+export function updateDiscountItem(id: string, selectedItems: string[]): DiscountsActionTypes {
   return {
     type: UPDATE_DISCOUNT_ITEM,
     id,
-    selectedItem,
+    selectedItems,
   };
 }

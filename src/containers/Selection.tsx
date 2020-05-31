@@ -1,13 +1,14 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../reducers';
 import styled from 'styled-components';
 import Title from '../components/Title';
 import Options from '../components/Options';
-import { fetchInformation } from '../utils/api';
-import { RootState } from '../reducers';
 import { updateSelectedItems, updateSelectedDiscounts, updateCurrencyCode } from '../actions';
-import { SelectionProps, InformationsProps, ItemProps, DiscountProps, ItemOrDiscount, TogglableOptions } from '../constants/types';
+import { SelectionProps, InformationsProps, ItemProps, DiscountProps } from '../constants/types';
+import { fetchInformation } from '../utils/api';
+import { toggleOptionList } from '../utils';
 import { FOOTER_TEXT } from '../constants';
 
 const Section = styled('section')`
@@ -73,14 +74,6 @@ export default function Selection({ kind }: SelectionProps) {
     } catch(err) {
       console.warn(err);
     }
-  };
-
-  const toggleOptionList = (currentOptionList: ItemOrDiscount, newOption: TogglableOptions, id: string) => {
-    const currentList = { ...currentOptionList };
-    currentList[id]
-      ? delete currentList[id]
-      : (currentList[id] as any) = newOption;
-    return currentList;
   };
 
   const selectOption = (ev: React.MouseEvent<HTMLElement>) => {

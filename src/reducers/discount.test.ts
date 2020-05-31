@@ -56,13 +56,13 @@ const deleteActionTwo = {
 const updateDiscountItemActionOne = {
   type: 'UPDATE_DISCOUNT_ITEM' as typeof UPDATE_DISCOUNT_ITEM,
   id: 'd_4',
-  selectedItem: 'i_1',
+  selectedItems: ['i_1', 'i_2'],
 };
 
 const updateDiscountItemActionTwo = {
   type: 'UPDATE_DISCOUNT_ITEM' as typeof UPDATE_DISCOUNT_ITEM,
   id: 'd_2',
-  selectedItem: 'i_2',
+  selectedItems: ['i_1', 'i_2'],
 };
 
 describe('<Discount Reducer>', () => {
@@ -100,9 +100,9 @@ describe('<Discount Reducer>', () => {
     },);
 
     const stateOne = discount(state, updateDiscountItemActionOne);
-    expect(stateOne['selectedDiscounts']['d_4']['item']).toEqual('i_1');
+    expect(stateOne['selectedDiscounts']['d_4']['selectedItems']).toEqual(['i_1', 'i_2']);
 
     const stateTwo = discount(stateOne, updateDiscountItemActionTwo);
-    expect(stateTwo['selectedDiscounts']['d_2']['item']).toEqual('i_2');
+    expect(stateTwo['selectedDiscounts']['d_2']['selectedItems']).toEqual(['i_1', 'i_2']);
   });
 });
