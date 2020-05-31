@@ -65,6 +65,7 @@ export interface ModifyOptionProps {
   id: string;
   price: number;
   originalPrice?: number;
+  isDeleteRendering: boolean;
 }
 
 export interface ModalProps {
@@ -74,6 +75,7 @@ export interface ModalProps {
   onClose: () => void;
   id: string;
   price: number;
+  isDeleteRendering?: boolean;
 }
 
 export interface CountProps {

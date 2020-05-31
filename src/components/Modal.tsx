@@ -41,7 +41,7 @@ const Section = styled('section')`
 `;
 
 const Delete = styled('div')`
-  width: 50%;
+  flex: 1 1;
   padding: 10px 0;
   border-right: 1px solid #F3F3F3;
   text-align: center;
@@ -49,13 +49,13 @@ const Delete = styled('div')`
 `;
 
 const Complete = styled('div')`
-  width: 50%;
+  flex: 1 1;
   padding: 10px 0;
   border-right: 1px solid #F3F3F3;
   text-align: center;
 `;
 
-export default function Modal({ isShow, name, count, onClose, id, price }: ModalProps) {
+export default function Modal({ isShow, name, count, onClose, id, price, isDeleteRendering }: ModalProps) {
   const dispatch = useDispatch();
   const items = useSelector((state: RootState) => state.item.selectedItems);
   const [selectedItem, setSelectedItem] = useState<ItemProps>({});
@@ -107,7 +107,7 @@ export default function Modal({ isShow, name, count, onClose, id, price }: Modal
         {isNumber && <Count handleClick={updateCount} currentCount={updatedCount}/>}
       </Section>
       <Footer>
-        <Delete onClick={deleteOption}>삭제</Delete>
+        {isDeleteRendering && <Delete onClick={deleteOption}>삭제</Delete>}
         <Complete onClick={completeProcess}>{completeText}</Complete>
       </Footer>
     </Wrapper>
