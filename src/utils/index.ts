@@ -1,5 +1,5 @@
 import { MONEY_UNIT } from '../constants';
-import { ItemProps, DiscountProps, ItemOrDiscount, TogglableOptions } from '../constants/types';
+import { ItemProps, DiscountProps, ItemOrDiscount, TogglableOptions, ItemCountUpdateParames } from '../constants/types';
 
 export const addComma = (price: string) => {
   const split = price.split('.');
@@ -71,7 +71,7 @@ export const makeDiscountValue = (rate: number, totalItemPrice: number, unit: st
 
 export const makeCountArray = (max: number) => {
   const result = [];
-  for (let i = 1; i <= max; i++) {
+  for (let i = 0; i <= max; i++) {
     result.push(i);
   }
   return result;
@@ -89,9 +89,11 @@ export const updateDiscountItem = (selectedDiscounts: DiscountProps, id: string,
   return copySelectedDiscounts;
 };
 
-export const updateCount = (selectedItems: ItemProps, id: string, count: number) => {
+export const updateCount = (selectedItems: ItemProps, item: ItemCountUpdateParames ) => {
+  const { id, count, name, price } = item;
   const copySelectedItems = { ...selectedItems };
-  copySelectedItems[id].count = count;
+  const newItem = { count, name, price };
+  copySelectedItems[id] = newItem;
   return copySelectedItems;
 };
 

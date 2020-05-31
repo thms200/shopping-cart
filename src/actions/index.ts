@@ -26,11 +26,13 @@ export function updateCurrencyCode(currencyCode: string): ItemsActionTypes {
   };
 }
 
-export function updateItemCount(id: string, count: number): ItemsActionTypes {
+export function updateItemCount(id: string, count: number, name: string, price: number): ItemsActionTypes {
   return {
     type: UPDATE_ITEM_COUNT,
     id,
     count,
+    name,
+    price
   };
 }
 

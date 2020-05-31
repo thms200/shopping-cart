@@ -13,7 +13,7 @@ const Wrapper = styled('div')`
   background-color: #F7F7F7;
 `;
 
-export default function ModifyOption({ count, name, id }: ModifyOptionProps) {
+export default function ModifyOption({ count, name, id, price }: ModifyOptionProps) {
   const [isShow, setIsShow] = useState<boolean>(false);
 
   const onClick = () => {
@@ -23,7 +23,7 @@ export default function ModifyOption({ count, name, id }: ModifyOptionProps) {
     <Wrapper>
       {count || '수정'}&nbsp;
       <BsChevronDown size={12}  onClick={onClick}/>
-      <Modal isShow={isShow} name={name} count={count} onClose={onClick} id={id} />
+      <Modal isShow={isShow} name={name} count={count} onClose={onClick} id={id} price={price} />
     </Wrapper>
   );
 }

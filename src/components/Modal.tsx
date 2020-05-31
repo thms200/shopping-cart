@@ -55,7 +55,7 @@ const Complete = styled('div')`
   text-align: center;
 `;
 
-export default function Modal({ isShow, name, count, onClose, id }: ModalProps) {
+export default function Modal({ isShow, name, count, onClose, id, price }: ModalProps) {
   const dispatch = useDispatch();
   const items = useSelector((state: RootState) => state.item.selectedItems);
   const [selectedItem, setSelectedItem] = useState<ItemProps>({});
@@ -79,7 +79,7 @@ export default function Modal({ isShow, name, count, onClose, id }: ModalProps) 
   const completeProcess = () => {
     const discountItem = Object.keys(selectedItem);
     count
-      ? dispatch(updateItemCount(id, updatedCount))
+      ? dispatch(updateItemCount(id, updatedCount, name, price))
       : dispatch(updateDiscountItem(id, discountItem));
     onClose();
   };

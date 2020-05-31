@@ -12,6 +12,7 @@ export interface ItemProps {
     name: string;
     price: number;
     count: number;
+    originalPrice?: number;
   };
 }
 
@@ -62,6 +63,7 @@ export interface ModifyOptionProps {
   count: number;
   name: string;
   id: string;
+  price: number;
 }
 
 export interface ModalProps {
@@ -70,6 +72,7 @@ export interface ModalProps {
   count: number;
   onClose: () => void;
   id: string;
+  price: number;
 }
 
 export interface CountProps {
@@ -79,6 +82,13 @@ export interface CountProps {
 
 export interface CurrentColorProps {
   isActive: boolean;
+}
+
+export interface ItemCountUpdateParames {
+  id: string;
+  count: number;
+  name: string;
+  price: number;
 }
 
 // [Redux] - item
@@ -106,6 +116,8 @@ interface UpdateItemCount {
   type: typeof UPDATE_ITEM_COUNT,
   id: string;
   count: number;
+  name: string,
+  price: number;
 }
 
 interface DeleteItem {

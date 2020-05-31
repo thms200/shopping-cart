@@ -30,7 +30,7 @@ export default function Options({ kind, options, selectedOptions, handleClick, c
     <Fragment>
       {Object.values(options).map((option, index) => {
         const id = Object.keys(options)[index];
-        const { name } = option;
+        const { name, originalPrice } = option;
         return (
           <OptionWrapper key={id} data-id={id} onClick={onClick}>
             <Ul>
@@ -38,7 +38,7 @@ export default function Options({ kind, options, selectedOptions, handleClick, c
               <Number
                 kind={kind}
                 currency_code={currency_code}
-                price={option.price * option.count}
+                price={originalPrice || option.price * option.count}
                 discountRate={option.rate}
                 totalItemPrice={totalItemPrice}
                 itemList={itemList}
@@ -46,7 +46,7 @@ export default function Options({ kind, options, selectedOptions, handleClick, c
               />
             </Ul>
             {selectedOptions && selectedOptions![id] && <SelectedOption />}
-            {!selectedOptions && <ModifyOption count={option.count} name={option.name} id={id} />}
+            {!selectedOptions && <ModifyOption count={option.count} name={option.name} id={id} price={option.price} />}
           </OptionWrapper>
         );
       })}
