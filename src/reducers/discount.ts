@@ -26,7 +26,7 @@ export function discount(state = initialState, action: DiscountsActionTypes) {
     case UPDATE_DISCOUNT_ITEM:
       return {
         ...state,
-        selectedDiscounts: updateDiscountItem(state.selectedDiscounts, action.id, action.selectedItem),
+        selectedDiscounts: updateDiscountItem(state.selectedDiscounts, action.id, action.selectedItems),
       };
     default:
       return state;

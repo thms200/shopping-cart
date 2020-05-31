@@ -19,7 +19,7 @@ export interface DiscountProps {
   [key: string]: {
     name: string;
     rate: number;
-    item?: string;
+    selectedItems?: string[];
   };
 }
 
@@ -55,7 +55,7 @@ export interface NumberProps {
   discountRate?: number;
   totalItemPrice?: number;
   itemList?: ItemProps;
-  itemId?: string;
+  selectedItems?: string[];
 }
 
 export interface ModifyOptionProps {
@@ -136,8 +136,8 @@ interface DeleteDiscount {
 
 interface UpdateDiscountItem {
   type: typeof UPDATE_DISCOUNT_ITEM,
-  id: string,
-  selectedItem: string,
+  id: string
+  selectedItems: string[];
 }
 
 export type DiscountsActionTypes = UpdateSelectedDiscounts | DeleteDiscount | UpdateDiscountItem;

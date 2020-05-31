@@ -103,9 +103,9 @@ describe('<Util Index>', () => {
 
   describe('<function calculateDiscountPrice>', () => {
     it('should be returend discounted price according to item price if item is selected', () => {
-      expect(calculateDiscountPrice(mockItemOne, 'i_1', 0.1, 10000)).toEqual(3500);
-      expect(calculateDiscountPrice(mockItemThree, 'i_4', 0.2, 10000)).toEqual(60000);
-      expect(calculateDiscountPrice(mockItemThree, 'i_3', 0.5, 10000)).toEqual(15000);
+      expect(calculateDiscountPrice(mockItemOne, ['i_1'], 0.1, 10000)).toEqual(3500);
+      expect(calculateDiscountPrice(mockItemTwo, ['i_2'], 0.5, 10000)).toEqual(30000);
+      expect(calculateDiscountPrice(mockItemThree, ['i_3', 'i_4'], 0.2, 10000)).toEqual(66000);
     });
 
     it('should be returend discounted price according to total item price if item is not selected', () => {
@@ -125,9 +125,9 @@ describe('<Util Index>', () => {
 
   describe('<function makeDiscountValue>', () => {
     it('should be returend discount price if item is selected', () => {
-      expect(makeDiscountValue(0.1, 10000, 'KRW', mockItemOne, 'i_1')).toEqual('-3,500원(10%)');
-      expect(makeDiscountValue(0.2, 10000, 'KRW', mockItemOne, 'i_3')).toEqual('-6,000원(20%)');
-      expect(makeDiscountValue(0.07, 10000, 'KRW', mockItemOne, 'i_4')).toEqual('-7,000원(7%)');
+      expect(makeDiscountValue(0.1, 10000, 'KRW', mockItemOne, ['i_1'])).toEqual('-3,500원(10%)');
+      expect(makeDiscountValue(0.2, 10000, 'KRW', mockItemOne, ['i_3'])).toEqual('-6,000원(20%)');
+      expect(makeDiscountValue(0.07, 10000, 'KRW', mockItemOne, ['i_4'])).toEqual('-7,000원(7%)');
     });
 
     it('should be returend discount rate if item and total item price is not selected', () => {

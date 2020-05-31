@@ -42,7 +42,7 @@ export default function Options({ kind, options, selectedOptions, handleClick, c
                 discountRate={option.rate}
                 totalItemPrice={totalItemPrice}
                 itemList={itemList}
-                itemId={option.item}
+                selectedItems={option.selectedItems}
               />
             </Ul>
             {selectedOptions && selectedOptions![id] && <SelectedOption />}
